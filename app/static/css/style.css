@@ -1,0 +1,132 @@
+body {
+    width: 100%;
+    font-family: 'Quicksand', 'Source Sans Pro', arial, sans-serif;
+}
+
+.main {
+    height: 100vh;;
+    display: flex;
+}
+
+.grid-container {
+    display: flex;
+    flex-basis: auto;
+    overflow-y: auto;
+}
+
+.main-background {
+    background: #303F9F;
+}
+
+.common-page .msg {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+/* sidebar */
+#sidebar {
+    flex-basis: 20%;
+    flex-direction: column;
+    display: flex;
+    /* justify-content: flex-end; */
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    width: 18rem;
+}
+
+#sidebar .site-title .heading {
+    color: #fff;
+    font-size: 3.25rem;
+}
+
+#sidebar .links {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#sidebar .page-link {
+    color: #fff;
+    text-decoration: none;
+    flex-basis: 100%;
+    line-height: 1.75;
+    font-size: 1.25rem;
+}
+
+@media (max-width:767px) {
+    .main {
+        height: 100%;
+        flex-wrap: wrap;
+    }
+
+    .grid-container {
+        height: 100%;;
+        flex-basis: 100%;
+        overflow-y: hidden;
+    }
+
+    #sidebar {
+        height: unset;
+        flex-basis: 100%;
+        padding: 1rem 1rem 0rem 1rem;
+    }
+
+    #sidebar .site-title {
+        text-align: center;
+    }
+
+    #sidebar .links {
+        padding-top: 1rem;
+    }
+
+    #sidebar .page-link {
+        text-align: center;
+        flex-basis: 33.33%;
+    }
+}
+
+.common-container {
+    background: #fff;
+    color: #515151;
+    height: 100vh;
+    padding: 2rem 2rem 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+@media (min-width:768px) {
+    .common-container {
+        padding: 4rem 4rem 0;
+    }
+}
+
+.common-container .title {
+    max-width: 40rem;
+    margin-bottom: 2rem;
+}
+
+.common-container .content {
+    max-width: 40rem;
+    font-weight: 700;
+}
+
+h1 {
+	font-size: 2rem
+}
+
+h2 {
+	font-size: 1.5rem
+}
+
+h3 {
+	font-size: 1.25rem
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
