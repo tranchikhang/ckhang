@@ -1,10 +1,5 @@
 @charset "UTF-8";
 
-body {
-    width: 100%;
-    font-family: 'Quicksand', 'Source Sans Pro', arial, sans-serif;
-}
-
 #profile {
     padding-top: 15px;
     background: white;
@@ -47,6 +42,10 @@ body {
 
 #profile p {
     margin-bottom: 7px;
+}
+
+#profile .about {
+    width: 0;
 }
 
 #work {
@@ -169,10 +168,6 @@ body {
 @media (min-width:768px) {
     .main-avatar {
         margin-bottom: 10px;
-    }
-    .section {
-        margin-left: 3%;
-        margin-right: 3%;
     }
 
     .d-xs-only {
