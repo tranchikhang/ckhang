@@ -14,8 +14,8 @@ def about():
 def contact():
     return render_template('contact.html')
 
-@app.route('/cv')
-def cv():
+@app.route('/resume')
+def resume():
     return render_template('profile/index.html')
 
 @app.errorhandler(404)
