@@ -18,6 +18,10 @@ def contact():
 def resume():
     return render_template('profile/index.html')
 
+@app.route('/project')
+def project():
+    return render_template('project.html')
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('common/404.html'), 404

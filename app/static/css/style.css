@@ -8,12 +8,6 @@ body {
     display: flex;
 }
 
-/* .grid-container {
-    display: flex;
-    flex-basis: auto;
-    overflow-y: auto;
-} */
-
 .main-background {
     background: #303F9F;
 }
@@ -28,8 +22,6 @@ body {
     flex-basis: 20%;
     flex-direction: column;
     display: flex;
-    /* justify-content: flex-end; */
-    flex-wrap: wrap;
     padding: 1.5rem;
     width: 18rem;
 }
@@ -101,7 +93,7 @@ body {
 }
 @media (min-width:768px) {
     .common-container {
-        padding: 4rem 4rem 0;
+        padding: 4rem;
     }
 }
 
@@ -110,9 +102,14 @@ body {
     margin-bottom: 2rem;
 }
 
+.common-container .title a {
+    color: #515151;
+}
+
 .common-container .content {
     max-width: 40rem;
     font-weight: 700;
+    margin-bottom: 2em;
 }
 
 h1 {
@@ -135,4 +132,9 @@ h1, h2, h3, h4, h5, h6, p {
 a {
     text-decoration: none;
     background-color: transparent;
+}
+
+img {
+    width: 100%;
+    height: auto;
 }
