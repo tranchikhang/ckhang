@@ -63,7 +63,7 @@
     position: relative;
 }
 
-.timeline:before {
+.body:before {
     content: '';
     position: absolute;
     top: 20px;
@@ -73,7 +73,7 @@
     background: #ddd;
 }
 
-.timeline:after {
+.body:after {
     content: "";
     display: table;
     clear: both;
@@ -84,6 +84,13 @@
     clear: both;
     text-align: left;
     position: relative;
+}
+
+.sub-entry {
+    left: 10%;
+    position: relative;
+    overflow: hidden;
+    width: 90%;
 }
 
 .entry .title {
@@ -116,13 +123,24 @@
     font-size: 120%;
 }
 
-.entry .title p {
-    margin: 0;
-    font-size: 16px;
+.entry > .title p {
     font-weight: bold;
 }
 
+.entry .title p {
+    margin: 0;
+    font-size: 16px;
+}
+
 .entry .body {
+    box-sizing: border-box;
+    margin: 0 0 30px;
+    float: right;
+    width: 66%;
+    padding-left: 30px;
+}
+
+.entry .sub-body {
     box-sizing: border-box;
     margin: 0 0 30px;
     float: right;
