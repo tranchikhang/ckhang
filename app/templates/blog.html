@@ -1,0 +1,24 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="content">
+        <article class="post-body">
+            <h1 class="post-title">
+                <a href="/post/2019/pyodbc-named-parameter-binding/">
+                    Named parameters binding with pyodbc
+                </a>
+            </h1>
+            <div class="post-meta">
+                <span class="post-date">2019 Nov 17th</span>
+            </div>
+            <p>Binding parameter in pyodb with named placeholder without worrying about order</p>
+            <a href="/post/2019/pyodbc-named-parameter-binding/">More …</a>
+        </article>
+    </div>
+</div>
+{% endblock %}

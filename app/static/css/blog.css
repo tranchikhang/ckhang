@@ -1,0 +1,8 @@
+.post-title a {
+    color: inherit;
+}
+
+.post-content {
+    max-width: 50rem;
+    margin-bottom: 2em;
+}
