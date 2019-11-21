@@ -6,22 +6,6 @@
     padding-bottom: 2rem;
 }
 
-.img-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.main-avatar {
-    background-image: url('../../img/ava.jpg');
-    width: 195px;
-    height: 195px;
-    background-size: cover;
-    border-radius: 40%;
-    background-position: top center;
-    max-width: 100%;
-}
-
 .section-header {
     color: #6c757d;
     font-size: 1.75rem;
@@ -179,10 +163,6 @@
 }
 
 @media (min-width:768px) {
-    .main-avatar {
-        margin-bottom: 10px;
-    }
-
     .d-xs-only {
         display: none;
     }
