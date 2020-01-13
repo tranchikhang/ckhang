@@ -1,0 +1,237 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+<meta name="keywords" content="HTML,CSS,Angular,JavaScript,Typescript,Reddit,API,RxJS">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/vs2015.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="post-title">
+        <h1>Simple Reddit client using Angular</h1>
+    </div>
+    <div class="post-meta">
+        <h4>2020 January 13th</h4>
+    </div>
+    <div class="post-content">
+        <h3>About Reddit API</h3>
+        <p>In addition to the <a href="https://www.reddit.com/dev/api/"></a>official API, Reddit also serves JSON data out of the box. You just need to add ".json" after the url, for example: <a href="https://www.reddit.com/r/worldnews.json">https://www.reddit.com/r/worldnews.json</a></p>
+        <br>
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}"/>
+        <br>
+
+        <h3>Angular application</h3>
+        <p>I'm going to create a simple Angular app showing data from Reddit.</p>
+        <p>First I need to create the app using Angular CLI:</p>
+        <pre><code class="cmd">
+ng new a-reddit
+        </code></pre>
+
+
+        <p>Next, I need a component to display the data:</p>
+        <pre><code class="cmd">
+ng generate component dashboard
+        </code></pre>
+
+        <p>Dashboard component has been generated.</p>
+        <i>app/dashboard/dashboard.component.ts</i>
+
+        <pre><code class="typescript">
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent implements OnInit {
+    constructor() { }
+    ngOnInit() {
+    }
+}
+        </code></pre>
+
+        <p>Now I need to config the routes and set the dashboard page as default page.</p>
+        <i>app/app-routing.module.ts</i>
+        <pre><code class="typescript">
+import { DashboardComponent } from './dashboard/dashboard.component'
+
+const routes: Routes = [
+    {
+        path: '', redirectTo: '/dashboard', pathMatch: 'full'
+    },
+    {
+        path: 'dashboard', component: DashboardComponent
+    }
+];
+        </code></pre>
+
+        <p>I need to remove the default page of Angular. In <i>app.component.html</i>, I will remove all the content except the <i>router-outlet</i>. I also add a container div for applying CSS later.</p>
+        <i>app/app.component.html</i>
+
+        <pre><code class="HTML">
+&lt;div class=&quot;container&quot;&gt;
+    &lt;router-outlet&gt;&lt;/router-outlet&gt;
+&lt;/div&gt;
+        </code></pre>
+
+        <p>The app will simply display the title and submitted user name, therefore, I need a class to store the values.</p>
+        <p>Create a <i>models</i> folder and add a <i>thread.ts</i> file.</p>
+        <i>app/models/thread.ts</i>
+
+        <pre><code class="typescript">
+export class Thread {
+    title: string;
+    author: string;
+    permalink: string;
+    url: string;
+    createdDate: Date;
+
+    constructor(title:string, author: string, permalink: string, url: string) {
+        this.title = title;
+        this.author = author;
+        this.permalink = permalink;
+        this.url = url;
+    }
+}
+        </code></pre>
+
+        <p>To fetch data from Reddit asynchronously, I will create a <i>services</i> folder, then run the command below to create a new service:</p>
+        <pre><code class="cmd">
+ng generate service services/dashboard
+        </code></pre>
+
+        <i>app/services/dashboard.service.ts</i>
+        <pre><code class="typescript">
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DashboardService {
+    constructor() { }
+}
+        </code></pre>
+
+        <p>Next step is getting data from Reddit using Http Module from Angular. First I need to inject the HttpClientModule into the app.</p>
+        <i>app/app.module.ts</i>
+
+        <pre><code class="typescript">
+import { HttpClientModule } from '@angular/common/http';
+
+imports: [
+    ...
+    HttpClientModule
+],
+        </code></pre>
+
+        <p>Now I will add some code to <i>dashboard.service.ts</i></p>
+        <i>app/services/dashboard.service.ts</i>
+
+
+        <pre><code class="typescript">
+import { Observable } from 'rxjs'
+import { map } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http'
+import { Thread } from '../models/thread'
+
+constructor(private httpClient: HttpClient) { }
+
+getThreads(): Observable<any> {
+    return this.httpClient.get('https://old.reddit.com/r/worldnews.json').pipe(
+        map(res => {
+            return res['data']['children'].map(thread => {
+                let t = thread['data'];
+                return new Thread(t['title'], t['author'], t['permalink'], t['url']);
+            });
+        }
+        )
+    );
+}
+        </code></pre>
+
+        <p>Some explanations, the <i>httpClient</i> will send a GET request to Reddit</p>
+        <pre><code class="typescript">
+this.httpClient.get('https://old.reddit.com/r/worldnews.json')
+        </code></pre>
+        <p><i>pipe</i> is a method from RxJS which is used for composing operators. <i>pipe</i> accepts functions as arguments. So here I'm passing <i>map</i> function.</p>
+        <pre><code class="typescript">
+pipe(
+    map(
+        ...
+    )
+);
+        </code></pre>
+
+        <p><i>map</i> function <a href="https://www.learnrxjs.io/operators/transformation/map.html">Apply projection with each value from source</a>. That means the function below will apply to the response <i>res</i>:</p>
+        <pre><code class="typescript">
+res => {
+    return res['data']['children'].map(thread => {
+        let t = thread['data'];
+        return new Thread(t['title'], t['author'], t['permalink'], t['url']);
+    });
+}
+        </code></pre>
+
+        <p>As you can see from the JSON data picture, the threads list is in <b>data</b> then <b>children</b> property. I'm using <i>map</i> again to handle the data for each thread.</p>
+        <pre><code class="typescript">
+thread => {
+    let t = thread['data'];
+    return new Thread(t['title'], t['author'], t['permalink'], t['url']);
+}
+        </code></pre>
+
+        <p>That's the service, then to the component.</p>
+        <i>app/dashboard/dashboard.component.ts</i>
+        <pre><code class="typescript">
+import { DashboardService } from '../services/dashboard.service'
+...
+    threads: Thread[];
+
+    constructor(private dashboardService: DashboardService) {
+        this.threads = []
+    }
+
+    ngOnInit() {
+        this.getThreads();
+    }
+
+    getThreads() {
+        this.dashboardService.getThreads().subscribe(res => {
+            this.threads = res;
+        })
+    }
+        </code></pre>
+
+        <p>Finally, I need to create the HTML to show the data.</p>
+        <i>app/dashboard/dashboard.component.html</i>
+
+        {% raw %}
+        <pre><code class="HTML">
+&lt;div class=&quot;list-thread&quot;&gt;
+    &lt;div class=&quot;thread&quot; *ngFor=&quot;let thread of threads&quot;&gt;
+        &lt;div class=&quot;title&quot;&gt;{{ thread.title }}&lt;/div&gt;
+        &lt;div class=&quot;info&quot;&gt;{{ thread.author }}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+        {% endraw %}
+
+        <p>That's all for the coding. Now enter the command below and checkout the result:</p>
+        <pre><code class="cmd">
+ng serve
+        </code></pre>
+
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}"/>
+
+
+
+{% endblock %}
+
+
+
+{% block tail %}
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}

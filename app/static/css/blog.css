@@ -2,7 +2,12 @@
     color: inherit;
 }
 
+.post-body {
+    margin-bottom: 2em;
+}
+
 .post-content {
     max-width: 50rem;
+    margin-top: 1em;
     margin-bottom: 2em;
 }

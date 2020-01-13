@@ -1,6 +1,6 @@
 body {
     width: 100%;
-    font-family: 'Quicksand', 'Source Sans Pro', arial, sans-serif;
+    font-family: 'Arial', 'Quicksand', 'Source Sans Pro', arial, sans-serif;
 }
 
 .main {
@@ -140,6 +140,6 @@ a {
 }
 
 img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
 }
