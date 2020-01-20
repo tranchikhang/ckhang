@@ -2,7 +2,7 @@
 {% block head %}
 <meta name="description" content="CKhang">
 <link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/vs2015.min.css">
+<link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -92,6 +92,6 @@ INSERT INTO employee_info (first_name, last_name, office_address) VALUES (?, ?, 
 
 
 {% block tail %}
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script src="{{ url_for('static', filename='lib/highlight/highlight.min.js') }}"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}

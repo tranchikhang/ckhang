@@ -18,25 +18,30 @@
         <h3>About Reddit API</h3>
         <p>In addition to the <a href="https://www.reddit.com/dev/api/"></a>official API, Reddit also serves JSON data out of the box. You just need to add ".json" after the url, for example: <a href="https://www.reddit.com/r/worldnews.json">https://www.reddit.com/r/worldnews.json</a></p>
         <br>
-        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}"/>
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}">
         <br>
-
+	  	<p>In this post I'm going to create a simple Angular app showing data from Reddit.</p>
         <h3>Angular application</h3>
-        <p>I'm going to create a simple Angular app showing data from Reddit.</p>
-        <p>First I need to create the app using Angular CLI:</p>
+        <p>First I need to create the app using Angular CLI.</p>
         <pre><code class="cmd">
 ng new a-reddit
         </code></pre>
-
-
-        <p>Next, I need a component to display the data:</p>
+        <p>Enter the project’s directory and run the app to make sure that it is configured correctly.</p>
+        <pre><code class="cmd">
+cd a-reddit
+ng serve
+        </code></pre>
+        <p>The default page should be like this.</p>
+        <br>
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-init.png') }}">
+        <br>
+        <h4>Component</h4>
+        <p>We have created the app successfully. To display the data, we need to create a component.</p>
         <pre><code class="cmd">
 ng generate component dashboard
         </code></pre>
-
         <p>Dashboard component has been generated.</p>
-        <i>app/dashboard/dashboard.component.ts</i>
-
+        <i>src/app/dashboard/dashboard.component.ts</i>
         <pre><code class="typescript">
 import { Component, OnInit } from '@angular/core';
 
@@ -51,9 +56,8 @@ export class DashboardComponent implements OnInit {
     }
 }
         </code></pre>
-
-        <p>Now I need to config the routes and set the dashboard page as default page.</p>
-        <i>app/app-routing.module.ts</i>
+        <p>Now we need to config the routes and set the dashboard page as default page.</p>
+        <i>src/app/app-routing.module.ts</i>
         <pre><code class="typescript">
 import { DashboardComponent } from './dashboard/dashboard.component'
 
@@ -66,19 +70,16 @@ const routes: Routes = [
     }
 ];
         </code></pre>
-
         <p>I need to remove the default page of Angular. In <i>app.component.html</i>, I will remove all the content except the <i>router-outlet</i>. I also add a container div for applying CSS later.</p>
-        <i>app/app.component.html</i>
-
+        <i>src/app/app.component.html</i>
         <pre><code class="HTML">
 &lt;div class=&quot;container&quot;&gt;
     &lt;router-outlet&gt;&lt;/router-outlet&gt;
 &lt;/div&gt;
         </code></pre>
-
         <p>The app will simply display the title and submitted user name, therefore, I need a class to store the values.</p>
         <p>Create a <i>models</i> folder and add a <i>thread.ts</i> file.</p>
-        <i>app/models/thread.ts</i>
+        <i>src/app/models/thread.ts</i>
 
         <pre><code class="typescript">
 export class Thread {
@@ -101,8 +102,7 @@ export class Thread {
         <pre><code class="cmd">
 ng generate service services/dashboard
         </code></pre>
-
-        <i>app/services/dashboard.service.ts</i>
+        <i>src/app/services/dashboard.service.ts</i>
         <pre><code class="typescript">
 import { Injectable } from '@angular/core';
 
@@ -113,29 +113,26 @@ export class DashboardService {
     constructor() { }
 }
         </code></pre>
-
         <p>Next step is getting data from Reddit using Http Module from Angular. First I need to inject the HttpClientModule into the app.</p>
-        <i>app/app.module.ts</i>
-
+        <i>src/app/app.module.ts</i>
         <pre><code class="typescript">
 import { HttpClientModule } from '@angular/common/http';
-
+...
 imports: [
     ...
     HttpClientModule
 ],
         </code></pre>
 
-        <p>Now I will add some code to <i>dashboard.service.ts</i></p>
-        <i>app/services/dashboard.service.ts</i>
-
-
+        <p>Now I will add some code to fetch data</p>
+        <i>src/app/services/dashboard.service.ts</i>
         <pre><code class="typescript">
+...
 import { Observable } from 'rxjs'
 import { map } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http'
 import { Thread } from '../models/thread'
-
+...
 constructor(private httpClient: HttpClient) { }
 
 getThreads(): Observable<any> {
@@ -151,7 +148,7 @@ getThreads(): Observable<any> {
 }
         </code></pre>
 
-        <p>Some explanations, the <i>httpClient</i> will send a GET request to Reddit</p>
+        <p>Some explanations, the <i>httpClient</i> will send a GET request to Reddit.</p>
         <pre><code class="typescript">
 this.httpClient.get('https://old.reddit.com/r/worldnews.json')
         </code></pre>
@@ -164,7 +161,7 @@ pipe(
 );
         </code></pre>
 
-        <p><i>map</i> function <a href="https://www.learnrxjs.io/operators/transformation/map.html">Apply projection with each value from source</a>. That means the function below will apply to the response <i>res</i>:</p>
+        <p><i>map</i> function <a href="https://www.learnrxjs.io/operators/transformation/map.html">Apply projection with each value from source</a>. That means the function below will apply to the response <i>res</i>.</p>
         <pre><code class="typescript">
 res => {
     return res['data']['children'].map(thread => {
@@ -173,7 +170,6 @@ res => {
     });
 }
         </code></pre>
-
         <p>As you can see from the JSON data picture, the threads list is in <b>data</b> then <b>children</b> property. I'm using <i>map</i> again to handle the data for each thread.</p>
         <pre><code class="typescript">
 thread => {
@@ -181,10 +177,83 @@ thread => {
     return new Thread(t['title'], t['author'], t['permalink'], t['url']);
 }
         </code></pre>
-
-        <p>That's the service, then to the component.</p>
-        <i>app/dashboard/dashboard.component.ts</i>
+        <h4>Config file</h4>
+        <p>A config file is necessary to avoid hard coding reddit URL. I will have another post in detail about config file in Angular, for now I just give some demo code and basic explanation. First create a config file in <i>assets</i> folder:</p>
+        <i>src/assets/config.json</i>
+        <pre><code class="json">
+{
+    "baseUrl": "https://old.reddit.com"
+}
+        </code></pre>
+        <p>Second is creating a service to load the config file, .</p>
+        <pre><code class="cmd">
+ng generate service services/app-config
+        </code></pre>
+        <i>src/app/services/app-config.service.ts</i>
         <pre><code class="typescript">
+import { HttpClient } from '@angular/common/http'
+...
+private appConfig: any;
+
+constructor(private http: HttpClient) { }
+
+loadAppConfig() {
+    return this.http.get('/assets/config.json').toPromise().then(data => {
+        this.appConfig = data;
+    });
+}
+
+get baseUrl() {
+    if (!this.appConfig) {
+        throw Error('Config file not loaded!');
+    }
+    return this.appConfig.baseUrl;
+}
+        </code></pre>
+        <p>The code is pretty straightforward: use HttpClient to get the config file, store the file content into <i>appConfig</i> property, and make a getter that return the base URL.</p>
+        <p>Finally, I need to use APP_INITIALIZER, a provider that lets me specify a promise in <i>app.module.ts</i> to load the json file at startup.</p>
+        <pre><code class="typescript">
+
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from './services/app-config.service'
+...
+providers: [
+    {
+        provide: APP_INITIALIZER,
+        multi: true,
+        deps: [AppConfigService],
+        useFactory: (appConfigService: AppConfigService) => {
+            return () => {
+                return appConfigService.loadAppConfig();
+            };
+        }
+    }
+],
+        </code></pre>
+        <p>Back to <i>dashboard.service.ts</i>, replace the hard-coded URL with config file</p>
+        <i>src/app/services/dashboard.service.ts</i>
+        <pre><code class="typescript">
+import { AppConfigService } from '../services/app-config.service'
+...
+
+constructor(private httpClient: HttpClient, private appConfigService: AppConfigService) { }
+
+getThreads(): Observable<any> {
+    return this.httpClient.get(this.appConfigService.baseUrl + '/r/worldnews.json').pipe(
+        map(res => {
+            return res['data']['children'].map(thread => {
+                let t = thread['data'];
+                return new Thread(t['title'], t['author'], t['permalink'], t['url']);
+            });
+        }
+        )
+    );
+}
+        </code></pre>
+        <p>That's all for the service, then to the component.</p>
+        <i>src/app/dashboard/dashboard.component.ts</i>
+        <pre><code class="typescript">
+import { Thread } from '../models/thread'
 import { DashboardService } from '../services/dashboard.service'
 ...
     threads: Thread[];
@@ -203,10 +272,8 @@ import { DashboardService } from '../services/dashboard.service'
         })
     }
         </code></pre>
-
         <p>Finally, I need to create the HTML to show the data.</p>
-        <i>app/dashboard/dashboard.component.html</i>
-
+        <i>src/app/dashboard/dashboard.component.html</i>
         {% raw %}
         <pre><code class="HTML">
 &lt;div class=&quot;list-thread&quot;&gt;
@@ -217,14 +284,11 @@ import { DashboardService } from '../services/dashboard.service'
 &lt;/div&gt;
 </code></pre>
         {% endraw %}
-
         <p>That's all for the coding. Now enter the command below and checkout the result:</p>
         <pre><code class="cmd">
 ng serve
         </code></pre>
-
-        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}"/>
-
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}">
 
 
 {% endblock %}
