@@ -1,0 +1,352 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+<meta name="keywords" content="HTML,CSS,Angular,JavaScript,Typescript,Reddit,API,Binding,Input,Reactive Forms">
+<link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="post-title">
+        <h1>Simple Reddit client using Angular (2)</h1>
+    </div>
+    <div class="post-meta">
+        <h4>2020 January 23rd</h4>
+    </div>
+    <div class="post-content">
+        <p>In the <a href="/post/2020/simple-reddit-client-web-by-angular/">last post</a>, I created a simple web app that can fetch and show data from Reddit, but it doesn't have many features, only able to view threads from /r/worldnews. In this post I'm going to restructure the app a bit and add subreddit browsing feature.</p>
+
+        <h4>Application structure</h4>
+        <p>Right now my app has only one component - <i>dashboard</i> - in the <i>app</i> folder, which is difficult to scale if my app grows. So I'm going to create a <i>components</i> folder inside <i>app</i>, then move all created component in there.</p>
+
+        <img src="{{ url_for('static', filename='img/posts/2020/angular-reddit-2-1.png') }}">
+
+        <p>After moving the component, I need to fix the import.</p>
+        <i>src/app/app.module.ts</i>
+        <pre><code class="typescript">
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+        </code></pre>
+
+        <i>src/app/components/dashboard/dashboard.component.ts</i>
+        <pre><code class="typescript">
+import { Thread } from '../../models/thread'
+import { DashboardService } from '../../services/dashboard.service'
+        </code></pre>
+
+        <i>src/app/app-routing.module.ts</i>
+        <pre><code class="typescript">
+import { DashboardComponent } from './components/dashboard/dashboard.component'
+        </code></pre>
+
+
+        <p>Next step, I will create a component for displaying subreddit, the command is similar to dashboard creation, but I need to prepend the folder name</p>
+        <pre><code class="cmd">
+ng generate component components/subreddit
+        </code></pre>
+        <p>Subreddit component has been generated in <i>src/app/components/subreddit</i>.</p>
+
+
+        <h4>Services</h4>
+        <p>So now we have <i>dashboard</i> for reddit front page, and <i>subreddit</i> for each subreddit page. Since the data fetching logic is the same (making a request, subscribe the thread list to response data etc), so only one service is needed.</p>
+        <p>I will rename dashboard service...</p>
+        <pre><code class="cmd">
+dashboard.service.spec.ts
+dashboard.service.ts
+        </code></pre>
+        <p>...to common service (feel free to pick any name you like, just remember to update the source code with the correct name).</p>
+        <pre><code class="cmd">
+common.service.spec.ts
+common.service.ts
+        </code></pre>
+
+
+        <p>If you are using Visual Code to rename, a pop up message will appear asking if you want VS Code to fix the import. In this post I'm going to do it manually.</p>
+        <i>common.service.ts</i>
+        <pre><code class="typescript">
+export class CommonService
+        </code></pre>
+
+        <i>common.service.spec.ts</i>
+        <pre><code class="typescript">
+import { CommonService } from './common.service';
+
+describe('CommonService', () => {
+    beforeEach(() => TestBed.configureTestingModule({}));
+
+    it('should be created', () => {
+        const service: CommonService = TestBed.get(CommonService);
+        expect(service).toBeTruthy();
+    });
+});
+        </code></pre>
+
+        <p>Currently in common service, there is only one function <i>getThreads</i>. The only difference between front page and subreddit is the URL. So I will make 2 more functions and call to <i>getThreads</i>.</p>
+        <i>src/app/services/common.service.ts</i>
+        <pre><code class="typescript">
+export class CommonService {
+
+    constructor(private httpClient: HttpClient, private appConfigService: AppConfigService) { }
+
+    getFrontPage() {
+        return this.getThreads('/');
+    }
+
+    getSubreddit(subreddit: String) {
+        return this.getThreads('/r/' + subreddit);
+    }
+
+    getThreads(path: String): Observable<any> {
+        return this.httpClient.get(this.appConfigService.baseUrl + path + '.json').pipe(
+            map(res => {
+                return res['data']['children'].map(thread => {
+                    let t = thread['data'];
+                    return new Thread(t['title'], t['author'], t['permalink'], t['url']);
+                });
+            }
+            )
+        );
+    }
+}
+        </code></pre>
+
+
+        <h4>Child component</h4>
+        <p>Now we have <i>dashboard</i> component and <i>subreddit</i> component. The 2 components have almost the same logic: call to common service to fetch data from Reddit, then map data to list threads in view. We will create a child component called <i>thread-list</i> and use it in both dashboard and subreddit.</p>
+        <pre><code class="cmd">
+ng generate component components/thread-list
+        </code></pre>
+
+
+        <p>The HTML is the same as dashboard view.</p>
+        <i>src/app/components/thread-list/thread-list.component.html</i>
+        {% raw %}
+        <pre><code class="HTML">
+&lt;div class=&quot;list-thread&quot;&gt;
+    &lt;div class=&quot;thread&quot; *ngFor=&quot;let thread of threads&quot;&gt;
+        &lt;div class=&quot;title&quot;&gt;{{ thread.title }}&lt;/div&gt;
+        &lt;div class=&quot;info&quot;&gt;{{ thread.author }}&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+        {% endraw %}
+
+        <p>Add some CSS for styling.</p>
+        <i>src/app/components/thread-list/thread-list.component.scss</i>
+        <pre><code class="css">
+.list-thread {
+    display: flex;
+    flex-direction: column;
+}
+
+.thread {
+    margin-bottom: 1rem;
+}
+        </code></pre>
+
+
+        <p>Now we need to call Common service from dashboard/subreddit, then pass the data into <i>thread-list</i> component. There are <a href="https://angular.io/guide/component-interaction">many ways</a> to achieve this, I will use input binding since it's pretty simple.</p>
+        <i>src/app/components/thread-list/thread-list.component.ts</i>
+        <pre><code class="typescript">
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Thread } from '../../models/thread';
+...
+export class ThreadListComponent implements OnInit, OnChanges {
+
+    @Input()
+    threads: Thread[];
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
+    ngOnChanges(changes: any) {
+        if (changes['threads']) {
+            this.threads = changes['threads'].currentValue;
+        }
+    }
+}
+        </code></pre>
+        <p><i>threads</i> property is adorned with <a href="https://angular.io/guide/template-syntax#inputs-outputs">Input decoration</a>. <i>ngOnChanges</i> runs whenever the app detects changes to input properties.</p>
+        <p><i>thread-list</i> component is finished, we will implement logic handling in <i>dashboard</i> and <i>subreddit</i>.</p>
+
+
+        <br>
+        <h4>Dashboard</h4>
+        <p>On top of dashboard, for subreddit navigation, I will add a textbox and a button. The logic is simple:</p>
+        <ol>
+            <li>By default the app will load all threads from Reddit front page.</li>
+            <li>If user enters subreddit's name in textbox and presses the button, the app will redirect to <i>subreddit</i> component.</li>
+        </ol>
+
+
+        <p>To achieve, I will use <a href="https://angular.io/guide/reactive-forms">Angular's Reactive Forms</a> for data binding...</p>
+        <i>src/app/app.module.ts</i>
+        <pre><code class="typescript">
+import { ReactiveFormsModule } from '@angular/forms';
+...
+imports: [
+    ...
+    ReactiveFormsModule
+],
+        </code></pre>
+
+
+        <p>... and update route file.</p>
+        <i>src/app/app-routing.module.ts</i>
+        <pre><code class="typescript">
+import { SubredditComponent } from './components/subreddit/subreddit.component'
+
+const routes: Routes = [
+    {
+        path: '', component: DashboardComponent
+    },
+    {
+        path: 'r/:subreddit', component: SubredditComponent
+    }
+];
+        </code></pre>
+
+        <p>Update <i>dashboard</i> view.</p>
+        <i>src/app/components/dashboard/dashboard.component.html</i>
+        {% raw %}
+        <pre><code class="HTML">
+&lt;label&gt;
+    Subreddit:
+    &lt;input type=&quot;text&quot; [formControl]=&quot;subredditInput&quot;&gt;
+&lt;/label&gt;
+&lt;button (click)=&quot;toSubreddit()&quot;&gt;Go!&lt;/button&gt;
+&lt;app-thread-list [threads]=&quot;threads&quot;&gt;&lt;/app-thread-list&gt;
+
+</code></pre>
+        {% endraw %}
+
+        <p>Here we bind "Go!" button's click event to function <i>toSubreddit</i>. We also insert <i>thread-list</i> component into <i>dashboard</i> as a child component, bind <i>threads</i> property to <i>thread-list</i>'s <i>threads</i> property we created above.</p>
+        <i>src/app/components/dashboard/dashboard.component.ts</i>
+        <pre><code class="typescript">
+import { FormControl } from '@angular/forms';
+import { CommonService } from '../../services/common.service'
+import { Router } from '@angular/router';
+
+...
+export class DashboardComponent implements OnInit {
+
+    subredditInput = new FormControl('');
+    threads: Thread[];
+
+    constructor(private commonService: CommonService, private router: Router) {
+        this.threads = [];
+    }
+
+    ngOnInit() {
+        this.loadFrontpage();
+    }
+
+    loadFrontpage() {
+        this.commonService.getFrontPage().subscribe(res => { this.threads = res });
+    }
+
+    toSubreddit() {
+        this.router.navigate(['/r/' + this.subredditInput.value]);
+    }
+}
+        </code></pre>
+        <p>Inside <i>dashboard</i> component logic, on init <i>loadFrontpage</i> will be called, if user clicks button, the app will call <i>toSubreddit</i>, then get value from textbox and redirect to <i>subreddit</i> component.</p>
+
+
+        <br>
+        <h4>Subreddit</h4>
+        <p>Update <i>subreddit</i> view.</p>
+        <i>src/app/components/subreddit/subreddit.component.html</i>
+        {% raw %}
+        <pre><code class="HTML">
+&lt;app-thread-list [threads]=&quot;threads&quot;&gt;&lt;/app-thread-list&gt;
+        </code></pre>
+        {% endraw %}
+
+
+        <p><i>subreddit</i> logic.</p>
+        <i>src/app/components/subreddit/subreddit.component.ts</i>
+        <pre><code class="typescript">
+import { Thread } from '../../models/thread'
+import { CommonService } from '../../services/common.service'
+import { ActivatedRoute } from '@angular/router';
+
+...
+threads: Thread[];
+subreddit: String;
+
+constructor(private commonService: CommonService, private route: ActivatedRoute) {
+    this.threads = [];
+    this.subreddit = this.route.snapshot.paramMap.get('subreddit');
+}
+
+ngOnInit() {
+    this.loadSubreddit();
+}
+
+loadSubreddit() {
+    this.commonService.getSubreddit(this.subreddit).subscribe(res => {
+        this.threads = res;
+    })
+}
+        </code></pre>
+
+        <p>Final step is updating the main app HTML and CSS.</p>
+        <i>src/app/app.component.html</i>
+        {% raw %}
+        <pre><code class="html">
+&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;left-column&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;content&quot;&gt;
+        &lt;router-outlet&gt;&lt;/router-outlet&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+        {% endraw %}
+
+        <i>src/app/app.component.scss</i>
+        <pre><code class="css">
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.content {
+    flex-basis: 70%;
+}
+.left-column {
+    flex-basis: 15%;
+}
+        </code></pre>
+
+        <p>Enter the command below then go to the browser to see the result.</p>
+        <pre><code class="cmd">
+ng serve
+        </code></pre>
+
+        <img src="{{ url_for('static', filename='img/posts/2020/angular-reddit-2-2.png') }}">
+
+        <p>Type a subreddit name in the textbox then press the button.</p>
+
+        <img src="{{ url_for('static', filename='img/posts/2020/angular-reddit-2-3.png') }}">
+
+        <p><a href="https://github.com/tranchikhang/a-reddit">Source code on github.</a></p>
+
+
+
+{% endblock %}
+
+
+
+{% block tail %}
+<script src="{{ url_for('static', filename='lib/highlight/highlight.min.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}

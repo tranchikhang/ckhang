@@ -15,13 +15,13 @@
         <h4>2020 January 13th</h4>
     </div>
     <div class="post-content">
-        <h3>About Reddit API</h3>
+        <h4>About Reddit API</h4>
         <p>In addition to the <a href="https://www.reddit.com/dev/api/"></a>official API, Reddit also serves JSON data out of the box. You just need to add ".json" after the url, for example: <a href="https://www.reddit.com/r/worldnews.json">https://www.reddit.com/r/worldnews.json</a></p>
         <br>
         <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}">
         <br>
 	  	<p>In this post I'm going to create a simple Angular app showing data from Reddit.</p>
-        <h3>Angular application</h3>
+        <h4>Angular application</h4>
         <p>First I need to create the app using Angular CLI.</p>
         <pre><code class="cmd">
 ng new a-reddit
@@ -289,6 +289,8 @@ import { DashboardService } from '../services/dashboard.service'
 ng serve
         </code></pre>
         <img src="{{ url_for('static', filename='img/posts/2020/simple-reddit-client-web-by-angular-1.png') }}">
+
+        <p><a href="https://github.com/tranchikhang/a-reddit">Source code on github.</a></p>
 
 
 {% endblock %}
