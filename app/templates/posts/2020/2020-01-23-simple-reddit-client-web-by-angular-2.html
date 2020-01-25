@@ -12,12 +12,12 @@
         <h1>Simple Reddit client using Angular (2)</h1>
     </div>
     <div class="post-meta">
-        <h4>2020 January 23rd</h4>
+        <h3>2020 January 23rd</h3>
     </div>
     <div class="post-content">
         <p>In the <a href="/post/2020/simple-reddit-client-web-by-angular/">last post</a>, I created a simple web app that can fetch and show data from Reddit, but it doesn't have many features, only able to view threads from /r/worldnews. In this post I'm going to restructure the app a bit and add subreddit browsing feature.</p>
 
-        <h4>Application structure</h4>
+        <h3>Application structure</h3>
         <p>Right now my app has only one component - <i>dashboard</i> - in the <i>app</i> folder, which is difficult to scale if my app grows. So I'm going to create a <i>components</i> folder inside <i>app</i>, then move all created component in there.</p>
 
         <img src="{{ url_for('static', filename='img/posts/2020/angular-reddit-2-1.png') }}">
@@ -47,7 +47,7 @@ ng generate component components/subreddit
         <p>Subreddit component has been generated in <i>src/app/components/subreddit</i>.</p>
 
 
-        <h4>Services</h4>
+        <h3>Services</h3>
         <p>So now we have <i>dashboard</i> for reddit front page, and <i>subreddit</i> for each subreddit page. Since the data fetching logic is the same (making a request, subscribe the thread list to response data etc), so only one service is needed.</p>
         <p>I will rename dashboard service...</p>
         <pre><code class="cmd">
@@ -96,7 +96,7 @@ export class CommonService {
         return this.getThreads('/r/' + subreddit);
     }
 
-    getThreads(path: String): Observable<any> {
+    getThreads(path: String): Observable&#x3C;any&#x3E; {
         return this.httpClient.get(this.appConfigService.baseUrl + path + '.json').pipe(
             map(res => {
                 return res['data']['children'].map(thread => {
@@ -111,7 +111,7 @@ export class CommonService {
         </code></pre>
 
 
-        <h4>Child component</h4>
+        <h3>Child component</h3>
         <p>Now we have <i>dashboard</i> component and <i>subreddit</i> component. The 2 components have almost the same logic: call to common service to fetch data from Reddit, then map data to list threads in view. We will create a child component called <i>thread-list</i> and use it in both dashboard and subreddit.</p>
         <pre><code class="cmd">
 ng generate component components/thread-list
@@ -175,7 +175,7 @@ export class ThreadListComponent implements OnInit, OnChanges {
 
 
         <br>
-        <h4>Dashboard</h4>
+        <h3>Dashboard</h3>
         <p>On top of dashboard, for subreddit navigation, I will add a textbox and a button. The logic is simple:</p>
         <ol>
             <li>By default the app will load all threads from Reddit front page.</li>
@@ -245,11 +245,11 @@ export class DashboardComponent implements OnInit {
         this.loadFrontpage();
     }
 
-    loadFrontpage() {
+    loadFrontpage(): void {
         this.commonService.getFrontPage().subscribe(res => { this.threads = res });
     }
 
-    toSubreddit() {
+    toSubreddit(): void {
         this.router.navigate(['/r/' + this.subredditInput.value]);
     }
 }
@@ -258,7 +258,7 @@ export class DashboardComponent implements OnInit {
 
 
         <br>
-        <h4>Subreddit</h4>
+        <h3>Subreddit</h3>
         <p>Update <i>subreddit</i> view.</p>
         <i>src/app/components/subreddit/subreddit.component.html</i>
         {% raw %}
@@ -288,7 +288,7 @@ ngOnInit() {
     this.loadSubreddit();
 }
 
-loadSubreddit() {
+loadSubreddit(): void {
     this.commonService.getSubreddit(this.subreddit).subscribe(res => {
         this.threads = res;
     })
@@ -310,6 +310,34 @@ loadSubreddit() {
 </code></pre>
         {% endraw %}
 
+        <i>src/style.scss</i>
+        <pre><code class="css">
+a {
+    text-decoration: none;
+}
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+        </code></pre>
         <i>src/app/app.component.scss</i>
         <pre><code class="css">
 .container {
@@ -318,7 +346,6 @@ loadSubreddit() {
     margin-right: auto;
     display: flex;
 }
-
 .content {
     flex-basis: 70%;
 }
