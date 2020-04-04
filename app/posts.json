@@ -1,0 +1,28 @@
+{
+    "posts": [
+        {
+            "title": "Named parameters binding with pyodbc",
+            "link": "/post/2019/pyodbc-named-parameter-binding.html",
+            "preview": "Binding parameter in pyodb with named placeholder without worrying about order",
+            "date": "2019 Nov 17th"
+        },
+        {
+            "title": "Simple Reddit client using Angular",
+            "link": "/post/2020/simple-reddit-client-web-by-angular/",
+            "preview": "Create a simple Angular application fetching data from Reddit",
+            "date": "2020 Jan 13th"
+        },
+        {
+            "title": "Simple Reddit client using Angular (2)",
+            "link": "/post/2020/simple-reddit-client-web-by-angular-2/",
+            "preview": "Create a simple Angular application fetching data from Reddit (2)",
+            "date": "2020 Jan 23rd"
+        },
+        {
+            "title": "Simple Reddit client using Angular (3)",
+            "link": "/post/2020/simple-reddit-client-web-by-angular-3/",
+            "preview": "Create a simple Angular application fetching data from Reddit (3)",
+            "date": "2020 Jan 25th"
+        }
+    ]
+}

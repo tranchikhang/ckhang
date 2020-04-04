@@ -7,54 +7,20 @@
 {% block content %}
 <div class="common-container">
     <div class="content">
-        <article class="post-body">
-            <h1 class="post-title">
-                <a href="/post/2020/simple-reddit-client-web-by-angular-3/">
-                    Simple Reddit client using Angular (3)
-                </a>
-            </h1>
-            <div class="post-meta">
-                <span class="post-date">2020 Jan 25th</span>
-            </div>
-            <p>Create a simple Angular application fetching data from Reddit (3)</p>
-            <a href="/post/2020/simple-reddit-client-web-by-angular-3/">More …</a>
-        </article>
-        <article class="post-body">
-            <h1 class="post-title">
-                <a href="/post/2020/simple-reddit-client-web-by-angular-2/">
-                    Simple Reddit client using Angular (2)
-                </a>
-            </h1>
-            <div class="post-meta">
-                <span class="post-date">2020 Jan 23rd</span>
-            </div>
-            <p>Create a simple Angular application fetching data from Reddit (2)</p>
-            <a href="/post/2020/simple-reddit-client-web-by-angular-2/">More …</a>
-        </article>
-        <article class="post-body">
-            <h1 class="post-title">
-                <a href="/post/2020/simple-reddit-client-web-by-angular/">
-                    Simple Reddit client using Angular
-                </a>
-            </h1>
-            <div class="post-meta">
-                <span class="post-date">2020 Jan 13th</span>
-            </div>
-            <p>Create a simple Angular application fetching data from Reddit</p>
-            <a href="/post/2020/simple-reddit-client-web-by-angular/">More …</a>
-        </article>
-        <article class="post-body">
-            <h1 class="post-title">
-                <a href="/post/2019/pyodbc-named-parameter-binding/">
-                    Named parameters binding with pyodbc
-                </a>
-            </h1>
-            <div class="post-meta">
-                <span class="post-date">2019 Nov 17th</span>
-            </div>
-            <p>Binding parameter in pyodb with named placeholder without worrying about order</p>
-            <a href="/post/2019/pyodbc-named-parameter-binding/">More …</a>
-        </article>
+        {% for post in posts %}
+            <article class="post-body">
+                <h1 class="post-title">
+                    <a href="{{ post.link }}">
+                        {{ post.title }}
+                    </a>
+                </h1>
+                <div class="post-meta">
+                    <span class="post-date">{{ post.date }}</span>
+                </div>
+                <p>{{ post.preview }}</p>
+                <a href="{{ post.link }}">More …</a>
+            </article>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
