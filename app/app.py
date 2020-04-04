@@ -1,11 +1,15 @@
-from cms import *
 import os
 import fnmatch
 from flask import Flask, render_template
+
+import sys
+
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-
+from cms import *
 posts_list = read_json_data()
 posts_list['posts'].reverse()
 page_limit = 10
