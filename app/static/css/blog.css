@@ -11,3 +11,24 @@
     margin-top: 1em;
     margin-bottom: 2em;
 }
+
+.paging {
+    text-align: right;
+}
+
+.paging .current_page, .paging .other_page {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+@media (max-width:767px) {
+    .paging {
+        text-align: center;
+    }
+    .paging .current_page, .paging .other_page {
+        display: inline-block;
+        width: 30px;
+        text-align: center;
+    }
+}

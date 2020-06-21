@@ -1,0 +1,35 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="post-title">
+        <h1>Blog update</h1>
+    </div>
+    <div class="post-meta">
+        <h3>2020 June 23rd</h3>
+    </div>
+    <div class="post-content">
+        When I created this site, I was thinking about making a simple CMS by myself (just for fun). Since all my posts are just simple content, a database is not necessary, which means a Flat-File CMS is a good choice. It's simple, effective, and easy to set up.
+        For the first few pages, because of my laziness, I just hard-coded the link of my posts. But now I got some free times on weekend, I will try to add more functions to this site.
+        Back to topic, my approach to add CMS functions:
+        <ul>
+            <li>Blog folder structure: all of my posts are divided into folders which are named by the year they are created.</li>
+            <li>My first stupid thought: loop all the folders, in each folder, get all the file names, not really efficient I must say.</li>
+            <li>So I need a place to store a list of my posts, I decided to make it simple: use a json file. Whenever I create a new posts, I just add an item to the json file.</li>
+            <li>My web will load the file only once at startup. (May be I should think how to reload the file everytime I modify it without restart the web?)</li>
+            <li>Final is adding the paging.</li>
+        </ul>
+        The json file
+        <img src="{{ url_for('static', filename='img/posts/2020/2020-06-21-june-blog-update-2.png') }}">
+        <img src="{{ url_for('static', filename='img/posts/2020/2020-06-21-june-blog-update.png') }}">
+        <br>
+        That should complete the post listing page. Next is adding the category/tag function.
+    </div>
+</div>
+
+{% endblock %}

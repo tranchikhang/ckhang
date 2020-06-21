@@ -1,3 +1,4 @@
+from cms import *
 import os
 import fnmatch
 from flask import Flask, render_template
@@ -9,10 +10,8 @@ sys.path.append(file_dir)
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-from cms import *
+
 posts_list = read_json_data()
-posts_list['posts'].reverse()
-page_limit = 10
 
 
 @app.route('/')
@@ -33,12 +32,13 @@ def project():
 @app.route('/blog')
 @app.route('/blog/<page>')
 def blog(page=1):
-    start = 0
-    if page != 1:
-        start = page_limit*(page-1) - 1
-    end = page_limit*page
-    posts = posts_list['posts'][start:end]
-    return render_template('blog.html', posts=posts)
+    if page is None:
+        page = 1
+    page = get_post_in_page(posts_list, page)
+    posts = page.items
+    pager = page.pager('$link_first ~3~ $link_last', symbol_first='←', symbol_last='→', link_attr={
+                       'class': 'other_page'}, curpage_attr={'class': 'current_page'}, url="/blog/$page/")
+    return render_template('blog.html', posts=posts, pager=pager)
 
 
 @app.route('/contact')

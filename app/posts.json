@@ -2,7 +2,7 @@
     "posts": [
         {
             "title": "Named parameters binding with pyodbc",
-            "link": "/post/2019/pyodbc-named-parameter-binding.html",
+            "link": "/post/2019/pyodbc-named-parameter-binding/",
             "preview": "Binding parameter in pyodb with named placeholder without worrying about order",
             "date": "2019 Nov 17th"
         },
@@ -23,6 +23,12 @@
             "link": "/post/2020/simple-reddit-client-web-by-angular-3/",
             "preview": "Create a simple Angular application fetching data from Reddit (3)",
             "date": "2020 Jan 25th"
+        },
+        {
+            "title": "Blog update",
+            "link": "/post/2020/2020-june-blog-update/",
+            "preview": "Blog update 2020 June",
+            "date": "2020 June 21st"
         }
     ]
 }

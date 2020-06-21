@@ -1,6 +1,7 @@
 body {
     width: 100%;
-    font-family: 'Arial', 'Quicksand', 'Source Sans Pro', arial, sans-serif;
+    font-family: 'Quicksand', 'Arial', 'Source Sans Pro', arial, sans-serif;
+    font-weight: 500;
 }
 
 .main {
@@ -49,12 +50,6 @@ body {
         height: 100%;
         flex-wrap: wrap;
     }
-
-    /* .grid-container {
-        height: 100%;;
-        flex-basis: 100%;
-        overflow-y: hidden;
-    } */
 
     #sidebar {
         height: unset;

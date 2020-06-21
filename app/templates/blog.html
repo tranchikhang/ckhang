@@ -7,7 +7,8 @@
 {% block content %}
 <div class="common-container">
     <div class="content">
-        {% for post in posts %}
+        <div class="posts">
+            {% for post in posts %}
             <article class="post-body">
                 <h1 class="post-title">
                     <a href="{{ post.link }}">
@@ -20,7 +21,9 @@
                 <p>{{ post.preview }}</p>
                 <a href="{{ post.link }}">More …</a>
             </article>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="paging">{{ pager|safe }}</div>
     </div>
 </div>
 {% endblock %}
