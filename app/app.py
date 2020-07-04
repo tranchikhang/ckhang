@@ -1,4 +1,4 @@
-from cms import *
+from .cms import *
 import os
 import fnmatch
 from flask import Flask, render_template
