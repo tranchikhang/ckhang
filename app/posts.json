@@ -29,6 +29,12 @@
             "link": "/post/2020/2020-june-blog-update/",
             "preview": "Blog update 2020 June",
             "date": "2020 June 21st"
+        },
+        {
+            "title": "Moved my site to Heroku",
+            "link": "/post/2020/2020-moved-to-heroku/",
+            "preview": "",
+            "date": "2020 July 5th"
         }
     ]
 }
