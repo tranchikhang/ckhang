@@ -1,0 +1,37 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="post-title">
+        <h1>A great ebook about System design in Japanese</h1>
+    </div>
+    <div class="post-meta">
+        <h3>2020 July 5th</h3>
+    </div>
+    <div class="post-content">
+        As my current task at work is investigating and analyzing customer's system, I have to do some researching about system analysis and stuff. My current customer has more than 30 systems running around, most of them don't have documents/documents are not updated for years.
+        <br>
+        <br>
+        And then I came across this ebook: システム再構築を成功に導くユーザガイド (User guide for successful System rebuilding). It's written by <a href="https://www.ipa.go.jp/sec/about/info.html" target="_blank">Software Reliability Enhancement Center</a> of <a href="https://ja.wikipedia.org/wiki/%E6%83%85%E5%A0%B1%E5%87%A6%E7%90%86%E6%8E%A8%E9%80%B2%E6%A9%9F%E6%A7%8B" target="_blank">Information-technology Promotion Agency, Japan</a> (or IPA in short). The <a href="https://www.ipa.go.jp/sec/publish/tn16-009.html" target="_blank">second version of the book</a> was released on February 2nd 2018 and available for free in PDF.
+        <br>
+        <br>
+        This book is aimed at companies who have legacy system, and due to the rapidly changing business environment, they need to rebuild a new system.
+        <br>
+        <br>
+        There are 4 parts in the book, I will try to translate them into English :
+        <ul>
+            <li>解説編 (Explanation): When and why we need to build a new system etc</li>
+            <li>再構築手法選択編 (How to choose a system rebuild method): Steps to investigate, analyze current system and pick out the rebuild method.</li>
+            <li>計画策定編 (Planning): Explain some viewpoints to consider when planning for system rebuild</li>
+            <li>事例編 (Case study)</li>
+        </ul>
+        I don't read many IT Japanese books, but I think this is a good book for anyone who is working with system design, analysis etc., especially in Japanese company.
+    </div>
+</div>
+
+{% endblock %}
