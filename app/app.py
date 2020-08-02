@@ -46,11 +46,6 @@ def contact():
     return render_template('contact.html')
 
 
-@app.route('/resume')
-def resume():
-    return render_template('profile/index.html')
-
-
 @app.route('/post/<year>/<title>')
 def post(year, title):
     cwd = os.path.dirname(os.path.abspath(__file__))
