@@ -59,7 +59,7 @@ npm install webpack webpack-cli --save-dev
     &#x3C;head&#x3E;
         &#x3C;meta charset=&#x22;utf-8&#x22; /&#x3E;
         &#x3C;meta name=&#x22;viewport&#x22; content=&#x22;width=device-width, initial-scale=1&#x22; /&#x3E;
-        &#x3C;title&#x3E;My Application&#x3C;/title&#x3E;
+        &#x3C;title&#x3E;Mini Issue Tracker&#x3C;/title&#x3E;
         &#x3C;link rel=&#x22;stylesheet&#x22; href=&#x22;https://unpkg.com/purecss@2.0.3/build/pure-min.css&#x22; integrity=&#x22;sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ&#x22; crossorigin=&#x22;anonymous&#x22;&#x3E;
         &#x3C;link href=&#x22;style.css&#x22; rel=&#x22;stylesheet&#x22; /&#x3E;
     &#x3C;/head&#x3E;
@@ -77,9 +77,9 @@ npm install webpack webpack-cli --save-dev
 var m = require("mithril")
         </code></pre>
         <h3>Mithril Components</h3>
-        <p>Let's create a folder called <i>src</i>, the application source code will be in this folder.</p>
+        <p>Let's create a folder called <i>src</i>, I will store application source code in this folder.</p>
         <p>From the <a href="https://mithril.js.org/components.html" target="_blank">homepage</a>, a Mithril component is simply an object that has a <b>view</b> method.</p>
-        <p>OK let's create the <i>components</i> folder, where our components are stored. Then create <i>Login.js</i> file in that folder.</p>
+        <p>OK let's create the <i>components</i> folder, where our components are stored. Then create a <i>Login.js</i> file inside.</p>
         <p>By default, Mithril views are described using <a href="https://mithril.js.org/hyperscript.html" target="_blank">hyperscript</a>. There is also a tool to convert from HTML to Mithril template, Check out <a href="https://mithril.js.org/hyperscript.html#converting-html">Converting HTML</a>, super easy to use. <a href="https://mithril.js.org/jsx.html" target="_blank">JSX</a> is also supported if you prefer HTML syntax. For now I just stick with hyperscript.</p>
         <pre><code class="javascript">
 var m = require('mithril');
@@ -101,13 +101,11 @@ module.exports = {
                     ),
                     m('input', {
                         'placeholder': 'Username',
-                        'type': 'text',
-                        'formcontrolname': 'user'
+                        'type': 'text'
                     }),
                     m('input', {
                         'placeholder': 'Password',
-                        'type': 'password',
-                        'formcontrolname': 'password'
+                        'type': 'password'
                     }),
                     m('button', {
                             'class': 'pure-button pure-button-primary',
@@ -237,7 +235,7 @@ img {
         </code></pre>
         <p>Let's test it, change to project directory, type the command below:</p>
         <pre><code class="cmd">
-npm init --yes
+npm start
         </code></pre>
         <img src="{{ url_for('static', filename='img/posts/2020/trying-out-mithril-js-1.png') }}">
         <h3>Final</h3>
