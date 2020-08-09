@@ -24,7 +24,7 @@
         <br>
         <p>In general, I think Angular is great for big application, but overkill for small hobby projects. Recently, with an idea for a new project, I started with Angular as usual. After a few days, I was wondering if I could find an alternative because Angular was too big/complicated for my needs.</p>
         <br>
-        <p>I also wanted to try something new, simple, easy to learn, does not need a bunch of tools to setup/build/run. That's when I remembered about Mithril. A few years ago I saw a discussion on a Vietnamese tech forum, but I wasn't interested at the time. And now with 4-day week at home, I decided to try out Mithril. Let's see how long it takes me to create a simple application, and how is it different from Angular.</p>
+        <p>I also wanted to try something new, simple, easy to learn, does not need a bunch of tools to setup/build/run. That's when I remembered about Mithril. A few years ago I saw a discussion on a tech forum, but I wasn't interested at the time. And now with 4-day week at home, I decided to try out Mithril. Let's see how long it takes me to create a simple application, and how is it different from Angular.</p>
         <br>
         <h3>What is Mithril?</h3>
         <p>From the <a target="_blank" href="https://mithril.js.org/">homepage</a>: Mithril is a modern client-side JavaScript framework for building Single Page Applications. It's small (< 10kb gzip), fast and provides routing and XHR utilities out of the box.</p>
@@ -45,13 +45,13 @@ npm init --yes
 npm install mithril --save
 npm install webpack webpack-cli --save-dev
         </code></pre>
-        Edit <i>package.json</i>
+        <p>Edit <code>package.json</code></p>
         <pre><code class="json">
 "scripts": {
     "start": "webpack src/index.js --output bin/app.js -d --watch"
 }
         </code></pre>
-        <p>That's all for the installation. Now I will create <i>index.html</i> file.</p>
+        <p>That's all for the installation. Now I will create <code>index.html</code> file.</p>
         {% raw %}
         <pre><code class="html">
 &#x3C;!doctype html&#x3E;
@@ -72,14 +72,14 @@ npm install webpack webpack-cli --save-dev
         </code></pre>
         {% endraw %}
         <p>It's pretty straightforward, here I use <a href="https://purecss.io/" target="_blank">Pure.css</a> for easy styling.</p>
-        <p>Now I need an entry point file <i>index.js</i>, this file works as a starting point for my application. This is where the routing is defined, but since I haven't created any component, I just include Mithril in the module.</p>
+        <p>Now I need an entry point file <code>index.js</code>, this file works as a starting point for my application. This is where the routing is defined, but since I haven't created any component, I just include Mithril in the module.</p>
         <pre><code class="javascript">
 var m = require("mithril")
         </code></pre>
         <h3>Mithril Components</h3>
-        <p>Let's create a folder called <i>src</i>, I will store application source code in this folder.</p>
+        <p>Let's create a <code>src</code> folder to store application source code.</p>
         <p>From the <a href="https://mithril.js.org/components.html" target="_blank">homepage</a>, a Mithril component is simply an object that has a <b>view</b> method.</p>
-        <p>OK let's create the <i>components</i> folder, where our components are stored. Then create a <i>Login.js</i> file inside.</p>
+        <p>OK let's create the <code>components</code> folder, where our components are stored. Then create <code>Login.js</code> file inside.</p>
         <p>By default, Mithril views are described using <a href="https://mithril.js.org/hyperscript.html" target="_blank">hyperscript</a>. There is also a tool to convert from HTML to Mithril template, Check out <a href="https://mithril.js.org/hyperscript.html#converting-html">Converting HTML</a>, super easy to use. <a href="https://mithril.js.org/jsx.html" target="_blank">JSX</a> is also supported if you prefer HTML syntax. For now I just stick with hyperscript.</p>
         <pre><code class="javascript">
 var m = require('mithril');
@@ -122,7 +122,7 @@ module.exports = {
     }
 }
         </code></pre>
-        <p>I will go back and update <i>index.js</i> file.</p>
+        <p>I will go back and update <code>index.js</code> file.</p>
         <pre><code class="javascript">
 var Login = require('./components/Login');
 
@@ -139,32 +139,8 @@ m.route(document.body, '/login', {
     }
 })
         </code></pre>
-        <p>Finally, create <i>style.css</i> in the same folder with <i>index.html</i> for styling.</p>
+        <p>Finally, create <code>style.css</code> in the same folder with <code>index.html</code> for styling.</p>
         <pre><code class="css">
-a {
-    text-decoration: none;
-}
-
-html, body {
-    height: 100%;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-}
-
-*, *:before, *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
 .login {
     height: 100%;
 }
@@ -201,7 +177,7 @@ img {
 
 .login input {
     height: 50px;
-    margin: 15px 25px;
+    margin: 10px 25px;
     display: block;
     border: none;
     padding: 10px 0;
@@ -240,7 +216,8 @@ npm start
         <img src="{{ url_for('static', filename='img/posts/2020/trying-out-mithril-js-1.png') }}">
         <h3>Final</h3>
         <p>That's my accomplishment after 1 day into Mithril JS. I'm really impressed with the framework, it has simple API, small learning curve, doesn't require a build step and the documentation is easy to understand. If you want to know what is the differences between Mithril and other popular frameworks, you can take a look at <a href="https://mithril.js.org/framework-comparison.html" target="_blank">Framework comparison</a>.</p>
-        <p>I will continue using Mithril in this project for a while, go over some more advanced features, and let see what are the drawbacks.</p>
+        <p>The only weakness I found with Mithril is the availability of learning resources. As far as I know, even though Mithril has been around for a number of years, it's not really popular comparing to react, Angular or Vue. Therefore, if you are stuck with some problems while working with Mithril, it could be a bit difficult to look for tutorial, article etc.</p>
+        <p>I will continue using Mithril in this project for a while, go over some more advanced features, and let see what are the other strengths and weaknesses.</p>
     </div>
 </div>
 

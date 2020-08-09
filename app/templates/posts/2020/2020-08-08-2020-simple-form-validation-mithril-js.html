@@ -1,0 +1,154 @@
+{% extends "common/layout.html" %}
+{% block head %}
+<meta name="description" content="CKhang">
+<meta name="keywords" content="Mithril, MithrilJS, Front-end, Frontend, Framework, JavaScript, HTML, CSS, Validation">
+<link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="common-container">
+    <div class="post-title">
+        <h1>Simple form validation in MithrilJS</h1>
+    </div>
+    <div class="post-meta">
+        <h3>2020 August 8th</h3>
+    </div>
+    <div class="post-content">
+        <p>Last time, I covered the basic of Mithril by creating a simple login page. In this post I will continue with form validation in a simple way.</p>
+        <p>I couldn't find any good tutorial covering form validation, except a snippet from <a href="https://how-to-mithril.js.org/" target="_blank">how-to-mithril</a>. This is my only reference for now, and I don't have much experience with Mithril, so this tutorial may be not the best practice.</p>
+        <p>We only need to modify <code>Login.js</code> file. If you want to improve reusability, you may want to create separated file for each component.</p>
+        <br>
+        <h3>Input components</h3>
+        <p>I will create separated component for each input, first is user name.</p>
+        <pre><code class="javascript">
+let UserNameInput = {
+    error: '',
+    value: '',
+    validate() {
+        UserNameInput.error = !UserNameInput.value ? 'Please input user name' : '';
+    },
+    isValid() {
+        return UserNameInput.error ? false : true;
+    },
+    view() {
+        return [
+            m('input', {
+                className: UserNameInput.error ? 'error' : '',
+                error: '',
+                placeholder: 'User Name',
+                type: 'text',
+                oninput: e => {
+                    UserNameInput.value = e.target.value;
+                    UserNameInput.error && UserNameInput.validate()
+                }
+            }),
+            UserNameInput.error && m('div.error-message', UserNameInput.error)
+        ];
+    }
+};
+        </code></pre>
+        <p><code>UserNameInput</code> is a Mithril component, since it has a <code>view</code> method. I added <code>error</code> property to store validation result, <code>value</code> property to store input value (since I haven't found a way to access child element in Mithril component).</p>
+        <p>The next two functions are pretty self-explanatory, <code>validate</code> function checks input value, while <code>isValid</code> returns validation result.</p>
+        <p>In <code>view</code> method, I implemented <code>oninput</code> event, so when user types something, we will perform form validation.</p>
+        <p>And this line:</p>
+        <pre><code class="javascript">
+UserNameInput.error && m('div.error-message', UserNameInput.error)
+        </code></pre>
+        <p>will show the error if validation failed.</p>
+        <br>
+        <p>Password input is pretty much the same.</p>
+        <pre><code class="javascript">
+let PasswordInput = {
+    error: '',
+    value: '',
+    validate() {
+        PasswordInput.error = !PasswordInput.value ? 'Please input password' : '';
+    },
+    isValid() {
+        return PasswordInput.error ? false : true;
+    },
+    view() {
+        return [
+            m('input', {
+                className: PasswordInput.error ? 'error' : '',
+                error: '',
+                placeholder: 'Password',
+                type: 'password',
+                oninput: e => {
+                    PasswordInput.value = e.target.value;
+                    PasswordInput.error && PasswordInput.validate()
+                }
+            }),
+            PasswordInput.error && m('div.error-message', PasswordInput.error)
+        ];
+    }
+};
+        </code></pre>
+        <h3>Form component</h3>
+        <p>I've created all input, now I need a form to put them in.</p>
+        <pre><code class="javascript">
+let LoginForm = {
+    isValid() {
+        UserNameInput.validate();
+        PasswordInput.validate();
+        if (UserNameInput.isValid() && PasswordInput.isValid()) {
+            return true;
+        }
+        return false;
+    },
+    view() {
+        return m('form', [
+            m('h1',
+                'Login'
+            ),
+            // Passing component
+            m(UserNameInput),
+            m(PasswordInput),
+            m('button', {
+                    class: 'pure-button pure-button-primary',
+                    id: 'loginBtn',
+                    type: 'button',
+                    onclick() {
+                        if (LoginForm.isValid()) {
+                            m.route.set('/dashboard')
+                        }
+                    }
+                },
+                'Login'
+            )
+        ])
+    }
+}
+        </code></pre>
+        <p><code>LoginForm</code> has <code>isValid</code> function, which runs when user clicks login button.</p>
+        <pre><code class="javascript">
+m(UserNameInput),
+m(PasswordInput),
+        </code></pre>
+        <p>Here I pass 2 input components above to <code>LoginForm</code>, and call <code>isValid</code> function to validate our form in <code>onclick</code> event.</p>
+
+        <p>Finally, add css for validation message.</p>
+        <pre><code class="css">
+.login div.error-message {
+    margin: 0px 25px;
+    font-size: 90%;
+    color: red;
+    min-height: 8px;
+}
+        </code></pre>
+        <h3>Final</h3>
+        <img src="{{ url_for('static', filename='img/posts/2020/simple-form-validation-mithril-js.gif') }}">
+        <p>The validation above is pretty simple. It works but there are room for improvement:</p>
+        <li>Create component for each type of validation to maximize reusability (required, length etc)</li>
+        <li>Format error message with parameter</li>
+        <p>And many other things. You can use this tutorial as a base for further development. Happy coding!</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block tail %}
+<script src="{{ url_for('static', filename='lib/highlight/highlight.min.js') }}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}

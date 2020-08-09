@@ -37,7 +37,7 @@
             "date": "2020 July 5th"
         },
         {
-            "title": "A great ebook about System design in Japanese",
+            "title": "A great Japanese ebook about System design",
             "link": "/post/2020/2020-system-design-ebook-japanese/",
             "preview": "A great IT book by IPA",
             "date": "2020 July 5th"
@@ -45,8 +45,14 @@
         {
             "title": "Trying out MithrilJS",
             "link": "/post/2020/2020-trying-out-mithril-js/",
-            "preview": "",
+            "preview": "Mithril - Getting Started",
             "date": "2020 July 24th"
+        },
+        {
+            "title": "Simple form validation in MithrilJS",
+            "link": "/post/2020/2020-simple-form-validation-mithril-js/",
+            "preview": "How to validate form input in MithrilJS",
+            "date": "2020 August 8th"
         }
     ]
 }
