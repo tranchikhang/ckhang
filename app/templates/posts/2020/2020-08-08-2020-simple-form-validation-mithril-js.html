@@ -15,8 +15,8 @@
         <h3>2020 August 8th</h3>
     </div>
     <div class="post-content">
-        <p>Last time, I covered the basic of Mithril by creating a simple login page. In this post I will continue with form validation in a simple way.</p>
-        <p>I couldn't find any good tutorial covering form validation, except a snippet from <a href="https://how-to-mithril.js.org/" target="_blank">how-to-mithril</a>. This is my only reference for now, and I don't have much experience with Mithril, so this tutorial may be not the best practice.</p>
+        <p>Last time, I covered the basics of Mithril by creating a simple login page. In this post I will continue with form validation in a simple way.</p>
+        <p>I couldn't find any good tutorial covering form validation, except a snippet from <a href="https://how-to-mithril.js.org/" target="_blank">how-to-mithril</a>. This is my only reference for now, and I don't have much experience with Mithril, so this tutorial maybe not the best practice.</p>
         <p>We only need to modify <code>Login.js</code> file. If you want to improve reusability, you may want to create separated file for each component.</p>
         <br>
         <h3>Input components</h3>
@@ -48,7 +48,7 @@ let UserNameInput = {
     }
 };
         </code></pre>
-        <p><code>UserNameInput</code> is a Mithril component, since it has a <code>view</code> method. I added <code>error</code> property to store validation result, <code>value</code> property to store input value (since I haven't found a way to access child element in Mithril component).</p>
+        <p><code>UserNameInput</code> is a Mithril component since it has a <code>view</code> method. I added <code>error</code> property to store validation result, <code>value</code> property to store input value (since I haven't found a way to access child element in Mithril component).</p>
         <p>The next two functions are pretty self-explanatory, <code>validate</code> function checks input value, while <code>isValid</code> returns validation result.</p>
         <p>In <code>view</code> method, I implemented <code>oninput</code> event, so when user types something, we will perform form validation.</p>
         <p>And this line:</p>
@@ -140,9 +140,9 @@ m(PasswordInput),
         <h3>Final</h3>
         <img src="{{ url_for('static', filename='img/posts/2020/simple-form-validation-mithril-js.gif') }}">
         <p>The validation above is pretty simple. It works but there are room for improvement:</p>
-        <li>Create component for each type of validation to maximize reusability (required, length etc)</li>
+        <li>Create component for each type of validation to maximize reusability (required, length, etc)</li>
         <li>Format error message with parameter</li>
-        <p>And many other things. You can use this tutorial as a base for further development. Happy coding!</p>
+        <p>And many other things. You can use this tutorial as a base for further development. Have fun with Mithril!</p>
     </div>
 </div>
 

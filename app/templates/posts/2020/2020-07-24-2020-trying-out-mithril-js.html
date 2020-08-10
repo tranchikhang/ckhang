@@ -24,7 +24,7 @@
         <br>
         <p>In general, I think Angular is great for big application, but overkill for small hobby projects. Recently, with an idea for a new project, I started with Angular as usual. After a few days, I was wondering if I could find an alternative because Angular was too big/complicated for my needs.</p>
         <br>
-        <p>I also wanted to try something new, simple, easy to learn, does not need a bunch of tools to setup/build/run. That's when I remembered about Mithril. A few years ago I saw a discussion on a tech forum, but I wasn't interested at the time. And now with 4-day week at home, I decided to try out Mithril. Let's see how long it takes me to create a simple application, and how is it different from Angular.</p>
+        <p>I also wanted to try something new, simple, easy to learn, does not need a bunch of tools to setup/build/run. That's when I remembered about Mithril. A few years ago I saw a discussion on a tech forum, but I wasn't interested at the time. And now with 4-day weekend at home, I decided to try out Mithril. Let's see how long it takes me to create a simple application, and how is it different from Angular.</p>
         <br>
         <h3>What is Mithril?</h3>
         <p>From the <a target="_blank" href="https://mithril.js.org/">homepage</a>: Mithril is a modern client-side JavaScript framework for building Single Page Applications. It's small (< 10kb gzip), fast and provides routing and XHR utilities out of the box.</p>
@@ -77,7 +77,7 @@ npm install webpack webpack-cli --save-dev
 var m = require("mithril")
         </code></pre>
         <h3>Mithril Components</h3>
-        <p>Let's create a <code>src</code> folder to store application source code.</p>
+        <p>Let's create <code>src</code> folder to store the application source code.</p>
         <p>From the <a href="https://mithril.js.org/components.html" target="_blank">homepage</a>, a Mithril component is simply an object that has a <b>view</b> method.</p>
         <p>OK let's create the <code>components</code> folder, where our components are stored. Then create <code>Login.js</code> file inside.</p>
         <p>By default, Mithril views are described using <a href="https://mithril.js.org/hyperscript.html" target="_blank">hyperscript</a>. There is also a tool to convert from HTML to Mithril template, Check out <a href="https://mithril.js.org/hyperscript.html#converting-html">Converting HTML</a>, super easy to use. <a href="https://mithril.js.org/jsx.html" target="_blank">JSX</a> is also supported if you prefer HTML syntax. For now I just stick with hyperscript.</p>
@@ -216,7 +216,9 @@ npm start
         <img src="{{ url_for('static', filename='img/posts/2020/trying-out-mithril-js-1.png') }}">
         <h3>Final</h3>
         <p>That's my accomplishment after 1 day into Mithril JS. I'm really impressed with the framework, it has simple API, small learning curve, doesn't require a build step and the documentation is easy to understand. If you want to know what is the differences between Mithril and other popular frameworks, you can take a look at <a href="https://mithril.js.org/framework-comparison.html" target="_blank">Framework comparison</a>.</p>
-        <p>The only weakness I found with Mithril is the availability of learning resources. As far as I know, even though Mithril has been around for a number of years, it's not really popular comparing to react, Angular or Vue. Therefore, if you are stuck with some problems while working with Mithril, it could be a bit difficult to look for tutorial, article etc.</p>
+        <br>
+        <p>The only weakness I found with Mithril is the availability of learning resources. As far as I know, even though Mithril has been around for a number of years, it's not really popular compared to react, Angular or Vue. Therefore, if you are stuck with some problems while working with Mithril, it could be a bit difficult to look for tutorials, articles, etc.</p>
+        <br>
         <p>I will continue using Mithril in this project for a while, go over some more advanced features, and let see what are the other strengths and weaknesses.</p>
     </div>
 </div>
