@@ -15,13 +15,13 @@
     </div>
     <div class="post-content">
         When I created this site, I was thinking about making a simple CMS by myself (just for fun). Since all my posts are just simple content, a database is not necessary, which means a Flat-File CMS is a good choice. It's simple, effective, and easy to set up.
-        For the first few pages, because of my laziness, I just hard-coded the link of my posts. But now I got some free times on weekend, I will try to add more functions to this site.
+        For the first few pages, because of my laziness, I just hard-coded the link of my posts. But now I got some free time on weekend, I will try to add more functions to this site.
         Back to topic, my approach to add CMS functions:
         <ul>
             <li>Blog folder structure: all of my posts are divided into folders which are named by the year they are created.</li>
             <li>My first stupid thought: loop all the folders, in each folder, get all the file names, not really efficient I must say.</li>
-            <li>So I need a place to store a list of my posts, I decided to make it simple: use a json file. Whenever I create a new posts, I just add an item to the json file.</li>
-            <li>My web will load the file only once at startup. (May be I should think how to reload the file everytime I modify it without restart the web?)</li>
+            <li>So I need a place to store a list of my posts, I decided to make it simple: use a json file. Whenever I create a new post, I just add an item to the json file.</li>
+            <li>My web will load the file only once at startup. (Maybe I should think how to reload the file every time I modify it without restart the web?)</li>
             <li>Final is adding the paging.</li>
         </ul>
         The json file
