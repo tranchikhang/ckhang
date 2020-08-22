@@ -17,7 +17,7 @@
     <div class="post-content">
         <p>Last time, I covered the basics of Mithril by creating a simple login page. In this post I will continue with form validation in a simple way.</p>
         <p>I couldn't find any good tutorial covering form validation, except a snippet from <a href="https://how-to-mithril.js.org/" target="_blank">how-to-mithril</a>. This is my only reference for now, and I don't have much experience with Mithril, so this tutorial maybe not the best practice.</p>
-        <p>We only need to modify <code>Login.js</code> file. If you want to improve reusability, you may want to create separated file for each component.</p>
+        <p>This time we only need to modify <code>Login.js</code> file. If you want to improve reusability, you may want to create separated file for each component.</p>
         <br>
         <h3>Input components</h3>
         <p>I will create separated component for each input, first is user name.</p>
@@ -25,18 +25,18 @@
 let UserNameInput = {
     error: '',
     value: '',
-    validate() {
-        UserNameInput.error = !UserNameInput.value ? 'Please input user name' : '';
+    validate: () => {
+        UserNameInput.error = !UserNameInput.value ? 'Please enter user name' : '';
     },
-    isValid() {
+    isValid: () => {
         return UserNameInput.error ? false : true;
     },
-    view() {
+    view: () => {
         return [
             m('input', {
                 className: UserNameInput.error ? 'error' : '',
-                error: '',
                 placeholder: 'User Name',
+                value: UserNameInput.value,
                 type: 'text',
                 oninput: e => {
                     UserNameInput.value = e.target.value;
@@ -50,7 +50,19 @@ let UserNameInput = {
         </code></pre>
         <p><code>UserNameInput</code> is a Mithril component since it has a <code>view</code> method. I added <code>error</code> property to store validation result, <code>value</code> property to store input value (since I haven't found a way to access child element in Mithril component).</p>
         <p>The next two functions are pretty self-explanatory, <code>validate</code> function checks input value, while <code>isValid</code> returns validation result.</p>
-        <p>In <code>view</code> method, I implemented <code>oninput</code> event, so when user types something, we will perform form validation.</p>
+        <p>First, I implement <b>one-way data binding</b> from component state to view, so I can set the value of input field using <code>UserNameInput.value</code> (ie: clear input data).</p>
+        <pre><code class="javascript">
+value: UserNameInput.value
+        </code></pre>
+        <p>For data binding on the other direction, from view to state, I used <code>oninput</code> event, so when user types something, we will perform form validation.</p>
+        <pre><code class="javascript">
+oninput: e => {
+    UserNameInput.value = e.target.value;
+    ...
+}
+        </code></pre>
+        <p>That's how two-way data binding works in Mithril. This is something I really like about Mithril, just need to do a simple value assignment and we got data binding done.</p>
+
         <p>And this line:</p>
         <pre><code class="javascript">
 UserNameInput.error && m('div.error-message', UserNameInput.error)
@@ -62,18 +74,18 @@ UserNameInput.error && m('div.error-message', UserNameInput.error)
 let PasswordInput = {
     error: '',
     value: '',
-    validate() {
-        PasswordInput.error = !PasswordInput.value ? 'Please input password' : '';
+    validate: () => {
+        PasswordInput.error = !PasswordInput.value ? 'Please enter password' : '';
     },
-    isValid() {
+    isValid: () => {
         return PasswordInput.error ? false : true;
     },
-    view() {
+    view: () => {
         return [
             m('input', {
                 className: PasswordInput.error ? 'error' : '',
-                error: '',
                 placeholder: 'Password',
+                value: PasswordInput.value,
                 type: 'password',
                 oninput: e => {
                     PasswordInput.value = e.target.value;
