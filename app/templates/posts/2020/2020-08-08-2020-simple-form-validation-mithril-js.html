@@ -1,7 +1,7 @@
 {% extends "common/layout.html" %}
 {% block head %}
 <meta name="description" content="CKhang">
-<meta name="keywords" content="Mithril, MithrilJS, Front-end, Frontend, Framework, JavaScript, HTML, CSS, Validation">
+<meta name="keywords" content="Mithril, MithrilJS, Front-end, Frontend, Framework, JavaScript, HTML, CSS, Validation, Data binding">
 <link href="{{ url_for('static', filename='css/blog.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ url_for('static', filename='lib/highlight/vs2015.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
@@ -48,17 +48,17 @@ let UserNameInput = {
     }
 };
         </code></pre>
-        <p><code>UserNameInput</code> is a Mithril component since it has a <code>view</code> method. I added <code>error</code> property to store validation result, <code>value</code> property to store input value (since I haven't found a way to access child element in Mithril component).</p>
+        <p>I create <code>UserNameInput</code> component by defining a <code>view</code> method. I also added <code>error</code> property to store validation result, <code>value</code> property to store input value, which I will bind to input value later.</p>
         <p>The next two functions are pretty self-explanatory, <code>validate</code> function checks input value, while <code>isValid</code> returns validation result.</p>
-        <p>First, I implement <b>one-way data binding</b> from component state to view, so I can set the value of input field using <code>UserNameInput.value</code> (ie: clear input data).</p>
+        <p>Here I implement <b>one-way data binding</b> from component state to view, so I can set the value of input field using <code>UserNameInput.value</code> (ie: clear input data).</p>
         <pre><code class="javascript">
 value: UserNameInput.value
         </code></pre>
-        <p>For data binding on the other direction, from view to state, I used <code>oninput</code> event, so when user types something, we will perform form validation.</p>
+        <p>For data binding on the other direction, from view to state, I used <code>oninput</code> event, so when user types something, it will trigger the validation.</p>
         <pre><code class="javascript">
 oninput: e => {
     UserNameInput.value = e.target.value;
-    ...
+    UserNameInput.error && UserNameInput.validate()
 }
         </code></pre>
         <p>That's how two-way data binding works in Mithril. This is something I really like about Mithril, just need to do a simple value assignment and we got data binding done.</p>
