@@ -1,0 +1,18 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{- if .IsHome }}{{ .Site.Title }}{{- else }}{{ .Title }}{{- end }}</title>
+
+
+    <link href="line-awesome/css/line-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- CSS -->
+    {{- $inServerMode   := .Site.IsServer }}
+    {{- $cssTarget      := "css/style.css" }}
+    {{- $cssOptions     := cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
+    {{- $style          := resources.Get "scss/style.scss" | toCSS $cssOptions }}
+        <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ range .Site.Params.css -}}
+        <link rel="stylesheet" href="{{ . | relURL }}">
+    {{ end -}}
+</head>

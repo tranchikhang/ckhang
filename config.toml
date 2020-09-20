@@ -1,0 +1,6 @@
+baseURL = ""
+languageCode = "en-us"
+title = "CKhang"
+theme = "default-theme"
+pygmentsUseClasses = "true"
+relativeURLs="true"
