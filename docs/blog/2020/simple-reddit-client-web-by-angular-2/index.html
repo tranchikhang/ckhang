@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Reddit client using Angular (2)</title>
+
+
+    <link href="line-awesome/css/line-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+        <link rel="stylesheet" href="../../../css/style.css">
+    </head>
+
+    <body>
+    	<div class="main">
+			<div id="sidebar" class="main-background">
+    <div class="site-title">
+        <h1>
+            <a class="heading">
+                Hi, I'm Khang
+            </a>
+        </h1>
+    </div>
+    <nav class="links">
+        <a class="page-link" href="../../../about/">About</a>
+        <a class="page-link" href="../../../project/">Project</a>
+        <a class="page-link" href="../../../blog/">Blog</a>
+    </nav>
+</div>
+	        <div class="common-container">
+	        	
+
+<main>
+	<div class="post">
+		<div class="post-info">
+        <br>
+        <time datetime="2020-01-23 00:00:00 &#43;0000 UTC">January 23, 2020</time>
+</div>
+
+		<h1 class="post-title">Simple Reddit client using Angular (2)</h1>
+<div class="post-line"></div>
+
+		<p>In the <a href="../../../blog/2020/simple-reddit-client-web-by-angular/">last post</a>, I created a simple web app that can fetch and show data from Reddit, but it doesn&rsquo;t have many features, only able to view threads from /r/worldnews. In this post I&rsquo;m going to restructure the app a bit and add subreddit browsing feature.</p>
+<h3 id="application-structure">Application structure</h3>
+<p>Right now my app has only one component - <em>dashboard</em> - in the <em>app</em> folder, which is difficult to scale if my app grows. So I&rsquo;m going to create a <em>components</em> folder inside <em>app</em>, then move all created component in there.</p>
+<p><img src="angular-reddit-2-1.png" alt="simple-reddit-client-web-by-angular-2-1.png"></p>
+<p>After moving the component, I need to fix the import.</p>
+<p><em>src/app/app.module.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">DashboardComponent</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./components/dashboard/dashboard.component&#39;</span><span class="p">;</span>
+</code></pre></div><p><em>src/app/components/dashboard/dashboard.component.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Thread</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../models/thread&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">DashboardService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../services/dashboard.service&#39;</span>
+</code></pre></div><p><em>src/app/app-routing.module.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">DashboardComponent</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./components/dashboard/dashboard.component&#39;</span>
+</code></pre></div><p>Next step, I will create a component for displaying subreddit, the command is similar to dashboard creation, but I need to prepend the folder name</p>
+<div class="highlight"><pre class="chroma"><code class="language-Bash" data-lang="Bash">ng generate component components/subreddit
+</code></pre></div><p>Subreddit component has been generated in <em>src/app/components/subreddit</em>.</p>
+<h3 id="services">Services</h3>
+<p>So now we have <em>dashboard</em> for reddit front page, and <em>subreddit</em> for each subreddit page. Since the data fetching logic is the same (making a request, subscribe the thread list to response data etc), so only one service is needed.</p>
+<p>I will rename dashboard service&hellip;</p>
+<div class="highlight"><pre class="chroma"><code class="language-Bash" data-lang="Bash">dashboard.service.spec.ts
+dashboard.service.ts
+</code></pre></div><p>&hellip;to common service (feel free to pick any name you like, just remember to update the source code with the correct name).</p>
+<div class="highlight"><pre class="chroma"><code class="language-Bash" data-lang="Bash">common.service.spec.ts
+common.service.ts
+</code></pre></div><p>If you are using Visual Code to rename, a pop up message will appear asking if you want VS Code to fix the import. In this post I&rsquo;m going to do it manually.</p>
+<p><em>common.service.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">CommonService</span>
+</code></pre></div><p><em>common.service.spec.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">CommonService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./common.service&#39;</span><span class="p">;</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;CommonService&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">beforeEach</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">TestBed</span><span class="p">.</span><span class="nx">configureTestingModule</span><span class="p">({}));</span>
+
+    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;should be created&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">service</span>: <span class="kt">CommonService</span> <span class="o">=</span> <span class="nx">TestBed</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">CommonService</span><span class="p">);</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">service</span><span class="p">).</span><span class="nx">toBeTruthy</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div><p>Currently in common service, there is only one function <em>getThreads</em>. The only difference between front page and subreddit is the URL. So I will make 2 more functions and call to <em>getThreads</em>.</p>
+<p><em>src/app/services/common.service.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">CommonService</span> <span class="p">{</span>
+
+    <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">httpClient</span>: <span class="kt">HttpClient</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">appConfigService</span>: <span class="kt">AppConfigService</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+
+    <span class="nx">getFrontPage() {</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getThreads</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">getSubreddit</span><span class="p">(</span><span class="nx">subreddit</span>: <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">getThreads</span><span class="p">(</span><span class="s1">&#39;/r/&#39;</span> <span class="o">+</span> <span class="nx">subreddit</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">getThreads</span><span class="p">(</span><span class="nx">path</span>: <span class="kt">String</span><span class="p">)</span><span class="o">:</span> <span class="nx">Observable</span><span class="o">&amp;</span><span class="err">#</span><span class="nx">x3C</span><span class="p">;</span><span class="nx">any</span><span class="o">&amp;</span><span class="err">#</span><span class="nx">x3E</span><span class="p">;</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">httpClient</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">appConfigService</span><span class="p">.</span><span class="nx">baseUrl</span> <span class="o">+</span> <span class="nx">path</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span><span class="p">).</span><span class="nx">pipe</span><span class="p">(</span>
+            <span class="nx">map</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">res</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;children&#39;</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">thread</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                    <span class="kd">let</span> <span class="nx">t</span> <span class="o">=</span> <span class="nx">thread</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">];</span>
+                    <span class="k">return</span> <span class="k">new</span> <span class="nx">Thread</span><span class="p">(</span><span class="nx">t</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="nx">t</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">],</span> <span class="nx">t</span><span class="p">[</span><span class="s1">&#39;permalink&#39;</span><span class="p">],</span> <span class="nx">t</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]);</span>
+                <span class="p">});</span>
+            <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="child-component">Child component</h3>
+<p>Now we have <em>dashboard</em> component and <em>subreddit</em> component. The 2 components have almost the same logic: call to common service to fetch data from Reddit, then map data to list threads in view. We will create a child component called <em>thread-list</em> and use it in both dashboard and subreddit.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Bash" data-lang="Bash">ng generate component components/thread-list
+</code></pre></div><p>The HTML is the same as dashboard view.</p>
+<p><em>src/app/components/thread-list/thread-list.component.html</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-HTML" data-lang="HTML"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;list-thread&#34;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;thread&#34;</span> <span class="err">*</span><span class="na">ngFor</span><span class="o">=</span><span class="s">&#34;let thread of threads&#34;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;title&#34;</span><span class="p">&gt;</span>{{ thread.title }}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;info&#34;</span><span class="p">&gt;</span>{{ thread.author }}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div><p>Add some CSS for styling.
+<em>src/app/components/thread-list/thread-list.component.scss</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-CSS" data-lang="CSS"><span class="p">.</span><span class="nc">list-thread</span> <span class="p">{</span>
+    <span class="k">display</span><span class="p">:</span> <span class="kc">flex</span><span class="p">;</span>
+    <span class="k">flex-direction</span><span class="p">:</span> <span class="kc">column</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">thread</span> <span class="p">{</span>
+    <span class="k">margin-bottom</span><span class="p">:</span> <span class="mi">1</span><span class="kt">rem</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>Now we need to call Common service from dashboard/subreddit, then pass the data into <em>thread-list</em> component. There are <a href="https://angular.io/guide/component-interaction">many ways</a> to achieve this, I will use input binding since it&rsquo;s pretty simple.</p>
+<p><em>src/app/components/thread-list/thread-list.component.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Component</span><span class="p">,</span> <span class="nx">OnInit</span><span class="p">,</span> <span class="nx">Input</span><span class="p">,</span> <span class="nx">OnChanges</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/core&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Thread</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../models/thread&#39;</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">ThreadListComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span><span class="p">,</span> <span class="nx">OnChanges</span> <span class="p">{</span>
+
+    <span class="kd">@Input</span><span class="p">()</span>
+    <span class="nx">threads</span>: <span class="kt">Thread</span><span class="p">[];</span>
+
+    <span class="kr">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="nx">ngOnInit() {</span>
+    <span class="p">}</span>
+
+    <span class="nx">ngOnChanges</span><span class="p">(</span><span class="nx">changes</span>: <span class="kt">any</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">changes</span><span class="p">[</span><span class="s1">&#39;threads&#39;</span><span class="p">])</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">threads</span> <span class="o">=</span> <span class="nx">changes</span><span class="p">[</span><span class="s1">&#39;threads&#39;</span><span class="p">].</span><span class="nx">currentValue</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p><em>threads</em> property is adorned with <a href="https://angular.io/guide/template-syntax#inputs-outputs">Input decoration</a>. <em>ngOnChanges</em> runs whenever the app detects changes to input properties.</p>
+<p><em>thread-list</em> component is finished, we will implement logic handling in <em>dashboard</em> and <em>subreddit</em>.</p>
+<h3 id="dashboard">Dashboard</h3>
+<p>On top of dashboard, for subreddit navigation, I will add a textbox and a button. The logic is simple:</p>
+<ul>
+<li>By default the app will load all threads from Reddit front page.</li>
+<li>If user enters subreddit&rsquo;s name in textbox and presses the button, the app will redirect to <em>subreddit</em> component.</li>
+</ul>
+<p>To achieve, I will use <a href="https://angular.io/guide/reactive-forms">Angular&rsquo;s Reactive Forms</a> for data binding&hellip;</p>
+<p><em>src/app/app.module.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">ReactiveFormsModule</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/forms&#39;</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="nx">imports</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">...</span>
+    <span class="nx">ReactiveFormsModule</span>
+<span class="p">],</span>
+</code></pre></div><p>&hellip; and update route file.</p>
+<p><em>src/app/app-routing.module.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">SubredditComponent</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./components/subreddit/subreddit.component&#39;</span>
+
+<span class="kr">const</span> <span class="nx">routes</span>: <span class="kt">Routes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">component</span>: <span class="kt">DashboardComponent</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;r/:subreddit&#39;</span><span class="p">,</span> <span class="nx">component</span>: <span class="kt">SubredditComponent</span>
+    <span class="p">}</span>
+<span class="p">];</span>
+</code></pre></div><p>Update <em>dashboard</em> view.</p>
+<p><em>src/app/components/dashboard/dashboard.component.html</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-HTML" data-lang="HTML"><span class="p">&lt;</span><span class="nt">label</span><span class="p">&gt;</span>
+    Subreddit:
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="err">[</span><span class="na">formControl</span><span class="err">]=&#34;</span><span class="na">subredditInput</span><span class="err">&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">button</span> <span class="err">(</span><span class="na">click</span><span class="err">)=&#34;</span><span class="na">toSubreddit</span><span class="err">()&#34;</span><span class="p">&gt;</span>Go!<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">app-thread-list</span> <span class="err">[</span><span class="na">threads</span><span class="err">]=&#34;</span><span class="na">threads</span><span class="err">&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">app-thread-list</span><span class="p">&gt;</span>
+
+</code></pre></div><p>Here we bind &ldquo;Go!&rdquo; button&rsquo;s click event to function <em>toSubreddit</em>. We also insert <em>thread-list</em> component into <em>dashboard</em> as a child component, bind <em>threads</em> property to <em>thread-list</em>&rsquo;s <em>threads</em> property we created above.</p>
+<p><em>src/app/components/dashboard/dashboard.component.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">FormControl</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/forms&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">CommonService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../services/common.service&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Router</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/router&#39;</span><span class="p">;</span>
+
+<span class="p">...</span>
+<span class="kr">export</span> <span class="kr">class</span> <span class="nx">DashboardComponent</span> <span class="kr">implements</span> <span class="nx">OnInit</span> <span class="p">{</span>
+
+    <span class="nx">subredditInput</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormControl</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+    <span class="nx">threads</span>: <span class="kt">Thread</span><span class="p">[];</span>
+
+    <span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">commonService</span>: <span class="kt">CommonService</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">router</span>: <span class="kt">Router</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">threads</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">}</span>
+
+    <span class="nx">ngOnInit() {</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">loadFrontpage</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="nx">loadFrontpage</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">commonService</span><span class="p">.</span><span class="nx">getFrontPage</span><span class="p">().</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">threads</span> <span class="o">=</span> <span class="nx">res</span> <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nx">toSubreddit</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">router</span><span class="p">.</span><span class="nx">navigate</span><span class="p">([</span><span class="s1">&#39;/r/&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">subredditInput</span><span class="p">.</span><span class="nx">value</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>Inside <em>dashboard</em> component logic, on init <em>loadFrontpage</em> will be called, if user clicks button, the app will call <em>toSubreddit</em>, then get value from textbox and redirect to <em>subreddit</em> component.</p>
+<h3 id="subreddit">Subreddit</h3>
+<p>Update <em>subreddit</em> view.</p>
+<p><em>src/app/components/subreddit/subreddit.component.html</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-HTML" data-lang="HTML"><span class="p">&lt;</span><span class="nt">app-thread-list</span> <span class="err">[</span><span class="na">threads</span><span class="err">]=&#34;</span><span class="na">threads</span><span class="err">&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">app-thread-list</span><span class="p">&gt;</span>
+</code></pre></div><p><em>subreddit</em> logic.</p>
+<p><em>src/app/components/subreddit/subreddit.component.ts</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-TypeScript" data-lang="TypeScript"><span class="kr">import</span> <span class="p">{</span> <span class="nx">Thread</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../models/thread&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">CommonService</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../../services/common.service&#39;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">ActivatedRoute</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;@angular/router&#39;</span><span class="p">;</span>
+
+<span class="p">...</span>
+<span class="nx">threads</span>: <span class="kt">Thread</span><span class="p">[];</span>
+<span class="nx">subreddit</span>: <span class="kt">String</span><span class="p">;</span>
+
+<span class="kr">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">commonService</span>: <span class="kt">CommonService</span><span class="p">,</span> <span class="kr">private</span> <span class="nx">route</span>: <span class="kt">ActivatedRoute</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">threads</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">subreddit</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">route</span><span class="p">.</span><span class="nx">snapshot</span><span class="p">.</span><span class="nx">paramMap</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;subreddit&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">ngOnInit() {</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">loadSubreddit</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">loadSubreddit</span><span class="p">()</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">commonService</span><span class="p">.</span><span class="nx">getSubreddit</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">subreddit</span><span class="p">).</span><span class="nx">subscribe</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">threads</span> <span class="o">=</span> <span class="nx">res</span><span class="p">;</span>
+    <span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div><p>Final step is updating the main app HTML and CSS.
+<em>src/app/app.component.html</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-HTML" data-lang="HTML"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;container&#34;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;left-column&#34;</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;content&#34;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">router-outlet</span><span class="p">&gt;&lt;/</span><span class="nt">router-outlet</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div><p><em>src/style.scss</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-CSS" data-lang="CSS"><span class="nt">a</span> <span class="p">{</span>
+    <span class="k">text-decoration</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">html</span><span class="o">,</span>
+<span class="nt">body</span> <span class="p">{</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">*</span> <span class="p">{</span>
+    <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">*,</span>
+<span class="o">*</span><span class="p">:</span><span class="nd">before</span><span class="o">,</span>
+<span class="o">*</span><span class="p">:</span><span class="nd">after</span> <span class="p">{</span>
+    <span class="kp">-webkit-</span><span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span>
+    <span class="kp">-moz-</span><span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span>
+    <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">img</span> <span class="p">{</span>
+    <span class="k">max-width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">height</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p><em>src/app/app.component.scss</em></p>
+<div class="highlight"><pre class="chroma"><code class="language-CSS" data-lang="CSS"><span class="p">.</span><span class="nc">container</span> <span class="p">{</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+    <span class="k">margin-right</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
+    <span class="k">display</span><span class="p">:</span> <span class="kc">flex</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">content</span> <span class="p">{</span>
+    <span class="k">flex-basis</span><span class="p">:</span> <span class="mi">70</span><span class="kt">%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">left-column</span> <span class="p">{</span>
+    <span class="k">flex-basis</span><span class="p">:</span> <span class="mi">15</span><span class="kt">%</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><p>Enter the command below then go to the browser to see the result.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Bash" data-lang="Bash">ng serve
+</code></pre></div><p><img src="angular-reddit-2-2.png" alt="angular-reddit-2-2.png">
+Type a subreddit name in the textbox then press the button.
+<img src="angular-reddit-2-3.png" alt="angular-reddit-2-3.png">
+<a href="https://github.com/tranchikhang/a-reddit">Source code on github.</a></p>
+
+
+	</div>
+
+	<div class="pagination">
+		<a href="../../../blog/2020/simple-reddit-client-web-by-angular/" class="left arrow">&#8592;</a>
+		<a href="../../../blog/2020/simple-reddit-client-web-by-angular-3/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+	        </div>
+        </div>
+    </body>
+</html>

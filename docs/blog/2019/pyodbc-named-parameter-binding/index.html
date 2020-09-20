@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Named parameters binding with pyodbc</title>
+
+
+    <link href="line-awesome/css/line-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+        <link rel="stylesheet" href="../../../css/style.css">
+    </head>
+
+    <body>
+    	<div class="main">
+			<div id="sidebar" class="main-background">
+    <div class="site-title">
+        <h1>
+            <a class="heading">
+                Hi, I'm Khang
+            </a>
+        </h1>
+    </div>
+    <nav class="links">
+        <a class="page-link" href="../../../about/">About</a>
+        <a class="page-link" href="../../../project/">Project</a>
+        <a class="page-link" href="../../../blog/">Blog</a>
+    </nav>
+</div>
+	        <div class="common-container">
+	        	
+
+<main>
+	<div class="post">
+		<div class="post-info">
+        <br>
+        <time datetime="2019-11-17 00:00:00 &#43;0000 UTC">November 17, 2019</time>
+</div>
+
+		<h1 class="post-title">Named parameters binding with pyodbc</h1>
+<div class="post-line"></div>
+
+		<p>A few days ago, while working with python and Sql Server using pyodbc, I had some troubles with parameter binding. The library supports <a href="https://github.com/mkleehammer/pyodbc/wiki/Binding-Parameters">binding</a> by marking the placeholder with &ldquo;?&rdquo; character and passing the value array into execute function.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO user_info (first_name, last_name, home_address) VALUES (?, ?, ?)&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">home_address</span><span class="p">])</span>
+</code></pre></div><p>First thing I noticed that it was hard to keep track all the parameters since I have to pass the value arrays with the correct order and all the placeholders are just &ldquo;?&rdquo;. I want to use named placeholder like &ldquo;:first_name&rdquo;, &ldquo;:last_name&rdquo; but it&rsquo;s not possible because pyodbc doesn&rsquo;t support it. After searching around, I found this similar question on SO: <a href="https://stackoverflow.com/questions/32748982/does-pyodbc-support-any-form-of-named-parameters">Does pyodbc support any form of named parameters?</a>, still no solution.</p>
+<p>There are situations where named placeholder can be more convenient, for example, I have these values and a query:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># values is a dictionary of values you received from submitted form etc</span>
+<span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;first_name&#39;</span> <span class="o">=</span> <span class="s1">&#39;Khang&#39;</span>
+    <span class="s1">&#39;last_name&#39;</span> <span class="o">=</span> <span class="s1">&#39;Tran&#39;</span>
+    <span class="s1">&#39;home_address&#39;</span> <span class="o">=</span> <span class="s1">&#39;Tokyo&#39;</span>
+    <span class="s1">&#39;office_address&#39;</span> <span class="o">=</span> <span class="s1">&#39;Chiyoda&#39;</span>
+<span class="p">}</span>
+<span class="n">sql1</span> <span class="o">=</span> <span class="s1">&#39;INSERT INTO user_info (first_name, last_name, home_address) VALUES (?, ?, ?)&#39;</span>
+</code></pre></div><p>If I want to execute sql1, I just need to pass a list as parameters:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="s1">&#39;first_name&#39;</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;last_name&#39;</span><span class="p">],</span> <span class="n">values</span><span class="p">[</span><span class="s1">&#39;home_address&#39;</span><span class="p">]]</span>
+</code></pre></div><p>Then I want to execute another query, using the same values variable above, I have to specify the values again.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">sql2</span> <span class="o">=</span> <span class="s1">&#39;INSERT INTO employee_info (first_name, last_name, office_address) VALUES (?, ?, ?)&#39;</span>
+</code></pre></div><p>It would be great if I could just pass the whole array and the placeholder will map with the value automatically using the key name.
+So I decided to make a function supporting named placeholder and auto mapping.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Python" data-lang="Python"><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="k">def</span> <span class="nf">bindParams</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="n">bindingParams</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[:]\w+&#39;</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bindingParams</span>
+
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="n">bindingParams</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No value with key: &#39;</span> <span class="o">+</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="n">sql</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[:]\w+&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sql</span><span class="p">,</span> <span class="n">bindingParams</span>
+
+<span class="n">params</span><span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;first_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;Khang&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;last_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;Tran&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;home_address&#39;</span> <span class="p">:</span> <span class="s1">&#39;Itabashi&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;office_address&#39;</span> <span class="p">:</span> <span class="s1">&#39;Chiyoda&#39;</span>
+<span class="p">}</span>
+
+<span class="n">sql1</span> <span class="o">=</span> <span class="s1">&#39;INSERT INTO user_info (first_name, last_name, home_address) VALUES (:first_name, :last_name, :home_address)&#39;</span>
+<span class="n">sql2</span> <span class="o">=</span> <span class="s1">&#39;INSERT INTO employee_info (first_name, last_name, office_address) VALUES (:first_name, :last_name, :office_address)&#39;</span>
+<span class="n">sql</span><span class="p">,</span> <span class="n">params1</span> <span class="o">=</span> <span class="n">bindParams</span><span class="p">(</span><span class="n">sql1</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">params1</span><span class="p">)</span>
+<span class="n">sql</span><span class="p">,</span> <span class="n">params2</span> <span class="o">=</span> <span class="n">bindParams</span><span class="p">(</span><span class="n">sql2</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">params2</span><span class="p">)</span>
+</code></pre></div><p>Result:</p>
+<div class="highlight"><pre class="chroma"><code class="language-SQL" data-lang="SQL"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">user_info</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">home_address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;Khang&#39;</span><span class="p">,</span> <span class="s1">&#39;Tran&#39;</span><span class="p">,</span> <span class="s1">&#39;Itabashi&#39;</span><span class="p">]</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">employee_info</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">office_address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">,</span> <span class="o">?</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;Khang&#39;</span><span class="p">,</span> <span class="s1">&#39;Tran&#39;</span><span class="p">,</span> <span class="s1">&#39;Chiyoda&#39;</span><span class="p">]</span>
+</code></pre></div><p>That&rsquo;s all, now I can use named placeholder and pass the value dictionary without worrying about the order.</p>
+
+
+	</div>
+
+	<div class="pagination">
+		<a href="../../../about/" class="left arrow">&#8592;</a>
+		<a href="../../../blog/2020/simple-reddit-client-web-by-angular/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+	        </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trying out MithrilJS</title>
+
+
+    <link href="line-awesome/css/line-awesome.min.css" rel="stylesheet" type="text/css">
+
+    
+        <link rel="stylesheet" href="../../../css/style.css">
+    </head>
+
+    <body>
+    	<div class="main">
+			<div id="sidebar" class="main-background">
+    <div class="site-title">
+        <h1>
+            <a class="heading">
+                Hi, I'm Khang
+            </a>
+        </h1>
+    </div>
+    <nav class="links">
+        <a class="page-link" href="../../../about/">About</a>
+        <a class="page-link" href="../../../project/">Project</a>
+        <a class="page-link" href="../../../blog/">Blog</a>
+    </nav>
+</div>
+	        <div class="common-container">
+	        	
+
+<main>
+	<div class="post">
+		<div class="post-info">
+        <br>
+        <time datetime="2020-07-24 00:00:00 &#43;0000 UTC">July 24, 2020</time>
+</div>
+
+		<h1 class="post-title">Trying out MithrilJS</h1>
+<div class="post-line"></div>
+
+		<p>These days, when you start a new project and want to pick a tool for front-end development, there are 3 options that most people will go for: react, Angular and Vue.</p>
+<p>I&rsquo;m not really good at front-end development. I have only worked with Angular for a short time, and it has always been my go-to framework at front-end. As I don&rsquo;t have experience with react or Vue, I cannot make a comparison. But from my point of view, the good things about Angular are:</p>
+<ul>
+<li>It&rsquo;s a full framework, so very feature rich</li>
+<li>Good documentation</li>
+<li>Pretty popular, can find resources easily</li>
+</ul>
+<p>In general, I think Angular is great for big application, but overkill for small hobby projects. Recently, with an idea for a new project, I started with Angular as usual. After a few days, I was wondering if I could find an alternative because Angular was too big/complicated for my needs.</p>
+<p>I also wanted to try something new, simple, easy to learn, does not need a bunch of tools to setup/build/run. That&rsquo;s when I remembered about Mithril. A few years ago I saw a discussion on a tech forum, but I wasn&rsquo;t interested at the time. And now with 4-day weekend at home, I decided to try out Mithril. Let&rsquo;s see how long it takes me to create a simple application, and how is it different from Angular.</p>
+<h3 id="what-is-mithril">What is Mithril?</h3>
+<p>From the <a href="https://mithril.js.org/">homepage</a>: Mithril is a modern client-side JavaScript framework for building Single Page Applications. It&rsquo;s small (&lt; 10kb gzip), fast and provides routing and XHR utilities out of the box.</p>
+<p>It took me around 15 mins to go through the <a href="https://mithril.js.org/index.html#getting-started">Getting started guide</a>, and around 4 hours for the <a href="https://mithril.js.org/simple-application.html">tutorial</a>, which is pretty fast in my opinion.</p>
+<p>OK, let&rsquo;s jump to the development. The sample application this time is very simple, just a login screen, a dashboard, probably CRUD operations. The purpose of this project is to test Mithril, so it uses some non-best practices.</p>
+<h3 id="installation">Installation</h3>
+<p>This is pretty simple, just follow the <a href="https://mithril.js.org/installation.html">guide</a>.</p>
+<p>Initialize the directory as an npm package:</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">npm init --yes
+</code></pre></div><p>Install required tools:</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">npm install mithril --save
+npm install webpack webpack-cli --save-dev
+</code></pre></div><p>Edit <code>package.json</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-JSON" data-lang="JSON"><span class="s2">&#34;scripts&#34;</span><span class="err">:</span> <span class="p">{</span>
+    <span class="nt">&#34;start&#34;</span><span class="p">:</span> <span class="s2">&#34;webpack src/index.js --output bin/app.js -d --watch&#34;</span>
+<span class="p">}</span>
+</code></pre></div><p>That&rsquo;s all for the installation. Now I will create <code>index.html</code> file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-HTML" data-lang="HTML"><span class="cp">&lt;!doctype html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1&#34;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Mini Issue Tracker<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;https://unpkg.com/purecss@2.0.3/build/pure-min.css&#34;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&#34;sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ&#34;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&#34;anonymous&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;style.css&#34;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span> <span class="p">/&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;container&#34;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;bin/app.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div><p>It&rsquo;s pretty straightforward, here I use <a href="https://purecss.io/">Pure.css</a> for easy styling.
+Now I need an entry point file <code>index.js</code>, this file works as a starting point for my application. This is where the routing is defined, but since I haven&rsquo;t created any component, I just include Mithril in the module.</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&#34;mithril&#34;</span><span class="p">)</span>
+</code></pre></div><h3 id="mithril-components">Mithril Components</h3>
+<p>Let&rsquo;s create <code>src</code> folder to store the application source code.
+From the <a href="https://mithril.js.org/components.html">homepage</a>, a Mithril component is simply an object that has a <strong>view</strong> method.
+OK let&rsquo;s create the <code>components</code> folder, where our components are stored. Then create <code>Login.js</code> file inside.
+By default, Mithril views are described using <a href="https://mithril.js.org/hyperscript.html">hyperscript</a>. There is also a tool to convert from HTML to Mithril template, Check out <a href="https://mithril.js.org/hyperscript.html#converting-html">Converting HTML</a>, super easy to use. <a href="https://mithril.js.org/jsx.html">JSX</a> is also supported if you prefer HTML syntax. For now I just stick with hyperscript.</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;mithril&#39;</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">view</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;pure-g login&#39;</span>
+        <span class="p">},</span> <span class="p">[</span>
+            <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span>
+                <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;pure-u-2-5&#39;</span>
+            <span class="p">},</span> <span class="p">),</span>
+            <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span>
+                    <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;pure-u-1-5&#39;</span>
+                <span class="p">},</span>
+                <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="p">[</span>
+                    <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Login&#39;</span>
+                    <span class="p">),</span>
+                    <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="p">{</span>
+                        <span class="s1">&#39;placeholder&#39;</span><span class="o">:</span> <span class="s1">&#39;Username&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;type&#39;</span><span class="o">:</span> <span class="s1">&#39;text&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="p">{</span>
+                        <span class="s1">&#39;placeholder&#39;</span><span class="o">:</span> <span class="s1">&#39;Password&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;type&#39;</span><span class="o">:</span> <span class="s1">&#39;password&#39;</span>
+                    <span class="p">}),</span>
+                    <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;button&#39;</span><span class="p">,</span> <span class="p">{</span>
+                            <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;pure-button pure-button-primary&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="s1">&#39;loginBtn&#39;</span>
+                        <span class="p">},</span>
+                        <span class="s1">&#39;Login&#39;</span>
+                    <span class="p">)</span>
+                <span class="p">])</span>
+            <span class="p">),</span>
+            <span class="nx">m</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span>
+                <span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;pure-u-2-5&#39;</span>
+            <span class="p">},</span> <span class="p">)</span>
+        <span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>I will go back and update <code>index.js</code> file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">var</span> <span class="nx">Login</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./components/Login&#39;</span><span class="p">);</span>
+
+<span class="nx">m</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="s1">&#39;/login&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;/login&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">m</span><span class="p">(</span><span class="nx">Login</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;/dashboard&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">m</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="s2">&#34;Hello world&#34;</span><span class="p">);</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div><p>Finally, create <code>style.css</code> in the same folder with <code>index.html</code> for styling.</p>
+<div class="highlight"><pre class="chroma"><code class="language-CSS" data-lang="CSS"><span class="p">.</span><span class="nc">login</span> <span class="p">{</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">h1</span><span class="o">,</span> <span class="p">.</span><span class="nc">login</span> <span class="nt">input</span><span class="p">::</span><span class="nd">-webkit-input-placeholder</span><span class="o">,</span> <span class="p">.</span><span class="nc">login</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="k">transition</span><span class="p">:</span> <span class="kc">all</span> <span class="mf">0.3</span><span class="kt">s</span> <span class="kc">ease</span><span class="o">-</span><span class="n">in-out</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">h1</span> <span class="p">{</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">60</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">font-size</span><span class="p">:</span> <span class="mi">18</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
+    <span class="k">background</span><span class="p">:</span> <span class="mh">#0078e7</span><span class="p">;</span>
+    <span class="k">color</span><span class="p">:</span> <span class="kc">white</span><span class="p">;</span>
+    <span class="k">line-height</span><span class="p">:</span> <span class="mi">150</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">border-radius</span><span class="p">:</span> <span class="mi">3</span><span class="kt">px</span> <span class="mi">3</span><span class="kt">px</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">box-shadow</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">2</span><span class="kt">px</span> <span class="mi">5</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">form</span> <span class="p">{</span>
+    <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">260</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">margin</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="kc">auto</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">box-shadow</span><span class="p">:</span> <span class="mi">2</span><span class="kt">px</span> <span class="mi">2</span><span class="kt">px</span> <span class="mi">5</span><span class="kt">px</span> <span class="mi">1</span><span class="kt">px</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">);</span>
+    <span class="k">padding-bottom</span><span class="p">:</span> <span class="mi">40</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">border-radius</span><span class="p">:</span> <span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">form</span> <span class="nt">h1</span> <span class="p">{</span>
+    <span class="k">box-sizing</span><span class="p">:</span> <span class="kc">border-box</span><span class="p">;</span>
+    <span class="k">padding</span><span class="p">:</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">input</span> <span class="p">{</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">50</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">margin</span><span class="p">:</span> <span class="mi">10</span><span class="kt">px</span> <span class="mi">25</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
+    <span class="k">border</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+    <span class="k">padding</span><span class="p">:</span> <span class="mi">10</span><span class="kt">px</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">border-bottom</span><span class="p">:</span> <span class="kc">solid</span> <span class="mi">1</span><span class="kt">px</span> <span class="mh">#0078e7</span><span class="p">;</span>
+    <span class="k">transition</span><span class="p">:</span> <span class="kc">all</span> <span class="mf">0.3</span><span class="kt">s</span> <span class="nb">cubic-bezier</span><span class="p">(</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.09</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="k">background</span><span class="p">:</span> <span class="nb">linear-gradient</span><span class="p">(</span><span class="kc">to</span> <span class="kc">bottom</span><span class="p">,</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="mi">96</span><span class="kt">%</span><span class="p">,</span> <span class="mh">#0078e7</span> <span class="mi">4</span><span class="kt">%</span><span class="p">);</span>
+    <span class="k">background-position</span><span class="p">:</span> <span class="mi">-200</span><span class="kt">px</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">background-size</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">background-repeat</span><span class="p">:</span> <span class="kc">no-repeat</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">input</span><span class="p">:</span><span class="nd">focus</span> <span class="p">{</span>
+    <span class="k">box-shadow</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+    <span class="k">outline</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
+    <span class="k">background-position</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">input</span><span class="p">:</span><span class="nd">focus</span><span class="p">::</span><span class="nd">-webkit-input-placeholder</span> <span class="p">{</span>
+    <span class="k">color</span><span class="p">:</span> <span class="mh">#0078e7</span><span class="p">;</span>
+    <span class="k">font-size</span><span class="p">:</span> <span class="mi">11</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">transform</span><span class="p">:</span> <span class="nb">translateY</span><span class="p">(</span><span class="mi">-20</span><span class="kt">px</span><span class="p">);</span>
+    <span class="k">visibility</span><span class="p">:</span> <span class="kc">visible</span> <span class="cp">!important</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">login</span> <span class="nt">button</span> <span class="p">{</span>
+    <span class="k">border-radius</span><span class="p">:</span> <span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">200</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">margin-left</span><span class="p">:</span> <span class="mi">25</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">box-shadow</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">3</span><span class="kt">px</span> <span class="mi">6</span><span class="kt">px</span> <span class="mi">0</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div><p>Let&rsquo;s test it, change to project directory, type the command below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-cmd" data-lang="cmd">npm start
+</code></pre></div><p><img src="trying-out-mithril-js-1.png" alt="trying-out-mithril-js-1.png"></p>
+<h3 id="final">Final</h3>
+<p>That&rsquo;s my accomplishment after 1 day into Mithril JS. I&rsquo;m really impressed with the framework, it has simple API, small learning curve, doesn&rsquo;t require a build step and the documentation is easy to understand. If you want to know what is the differences between Mithril and other popular frameworks, you can take a look at <a href="https://mithril.js.org/framework-comparison.html">Framework comparison</a>.</p>
+<p>The only weakness I found with Mithril is the availability of learning resources. As far as I know, even though Mithril has been around for a number of years, it&rsquo;s not really popular compared to react, Angular or Vue. Therefore, if you are stuck with some problems while working with Mithril, it could be a bit difficult to look for tutorials, articles, etc.</p>
+<p>I will continue using Mithril in this project for a while, go over some more advanced features, and let see what are the other strengths and weaknesses.</p>
+
+
+	</div>
+
+	<div class="pagination">
+		<a href="../../../blog/2020/system-design-ebook-japanese/" class="left arrow">&#8592;</a>
+		<a href="../../../blog/2020/simple-form-validation-mithril-js/" class="right arrow">&#8594;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+	        </div>
+        </div>
+    </body>
+</html>
