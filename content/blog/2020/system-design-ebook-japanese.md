@@ -2,6 +2,7 @@
 title: "A great Japanese ebook about System design"
 date: 2020-07-05
 summary: "A great IT book by IPA"
+cover: cover.png
 draft: true
 ---
 
