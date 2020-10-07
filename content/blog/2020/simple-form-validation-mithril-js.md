@@ -1,5 +1,5 @@
 ---
-title: "Simple Form Validation Mithril Js"
+title: "Simple Form Validation in Mithril Js"
 date: 2020-08-08
 summary: "How to validate form input in MithrilJS"
 draft: true
