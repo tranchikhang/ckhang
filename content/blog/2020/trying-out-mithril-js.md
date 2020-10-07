@@ -2,7 +2,6 @@
 title: "Trying out MithrilJS"
 date: 2020-07-24
 summary: "First day into Mithril"
-cover: cover.jpg
 draft: true
 ---
 

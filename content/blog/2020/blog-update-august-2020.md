@@ -2,7 +2,6 @@
 title: "Blog update"
 date: 2020-08-28
 summary: "Restructured with Hugo and moved to Vercel"
-cover: cover.png
 draft: true
 ---
 
