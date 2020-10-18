@@ -39,13 +39,13 @@ Here is the list
 | |問題点、課題、ニーズなど一覧|List of problems, issues, needs, etc.|
 | |要求一覧|Request list|
 | |業務機能構成表|Business function composition table|
-| |ビジネスプロセス関連図|Business process related diagram|
-| |外部システム関連図|External system related diagram|
+| |ビジネスプロセス関連図|Business process relationship diagram|
+| |外部システム関連図|External system relationship diagram|
 | |業務処理定義書|Business process definition|
-| |業務フロー定義書|Business flow definition document|
-|Requirements Definition|要件定義書|Requirements definition document|
+| |業務フロー定義書|Business flow definition|
+|Requirements Definition|要件定義書|Requirements definition|
 | |機能一覧|List of Functions|
-| |機能定義書|Function definition document|
+| |機能定義書|Function definition|
 | |画面遷移図|Screen transition diagram|
 | |画面一覧|Screen list|
 | |画面イメージと項目説明|Screen image and item description|
@@ -58,7 +58,7 @@ Here is the list
 | |外部インタフェース一覧|List of external interfaces|
 | |外部インタフェース項目定義|External interface item definition|
 | |外部インタフェース処理説明|External interface processing explanation|
-| |データモデル定義書|Data model definition document|
+| |データモデル定義書|Data model definition|
 | |データレイアウト概要|Data layout overview|
 | |非機能要件の定義|Definition of non-functional requirements|
 |Basic Design|基本設計書|Basic design document|
@@ -67,26 +67,25 @@ Here is the list
 | |ソフトウェア構成図|Software configuration diagram|
 | |ネットワーク構成図|Network configuration diagram|
 | |設計書記述様式|Design document description style|
-| |画面設計書|Screen design document|
+| |画面設計書|Screen design|
 | |画面レイアウト項目定義|Screen layout item definition|
-| |帳票設計書|Form design document|
+| |帳票設計書|Form design|
 | |帳票レイアウト項目定義|Form layout item definition|
 | |帳票編集定義|Form edit definition|
-| |オンライン処理設計書|Online processing design document|
+| |オンライン処理設計書|Online processing design|
 | |バッチ処理フロー|Batch processing flow|
 | |ジョブネット図|Job net diagram|
-| |ジョブ設計書|Job design document|
-| |外部IF設計書|External interface design document|
-| |メッセージ設計書|Message design document|
+| |ジョブ設計書|Job design|
+| |外部IF設計書|External interface design|
+| |メッセージ設計書|Message design|
 | |エンティティ一覧|List of entities|
 | |エンティティ定義書|Entity definition|
 | |ＣＲＵＤ図|CRUD diagram|
 | |データ項目定義書|Data item definition|
 | |テーブル一覧|Table list|
-| |テーブル設計書|Table design document|
+| |テーブル設計書|Table design|
 | |テーブル定義書|Table definition|
 | |テーブル関連図（ER図）|Table relationship diagram (ER diagram)|
-| |テーブル定義|table definition|
 | |ドメイン一覧／定義|Domain list / definition|
 | |コード一覧／定義|Code list / definition|
 | |共通処理関数設計|Common processing function design|
@@ -97,7 +96,7 @@ Here is the list
 | |シーケンス図|Sequence Diagram|
 | |ステータス遷移図|State transition diagram|
 | |DB更新項目定義|DB update item definition|
-| |バッチ処理設計書|Batch processing design document|
+| |バッチ処理設計書|Batch processing design|
 |Test|単体テスト仕様書兼成績書|Unit test specifications and transcripts|
 | |結合テスト仕様書兼成績書|Integration test specifications and transcripts|
 | |システムテスト仕様書兼成績書|System test specifications and report|
