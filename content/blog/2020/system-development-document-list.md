@@ -1,0 +1,113 @@
+---
+title: "What are the documents used for system development?"
+date: 2020-10-15
+summary: "If you’re about to outsourcing a project, you should consider creating a RFP"
+keywords: "Software engineering, Project management, Documentation, Japanese"
+draft: true
+---
+
+### The good old waterfall model
+If you work in software development, you have probably heard about the waterfall project management methodology (or waterfall model), even if you’ve never used it.
+Simply put, the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) is a sequential, linear process of project management that divides software development into pre-defined phases.
+![waterfall.png](waterfall.png)
+
+### The importance of documentation in system development
+In system development process, the time required to create document is not small. But good documentation can provide many benefits:
+* Clarify goals and requirements
+* Ensure that developers and stakeholders are headed in the same direction
+* Keep track of all aspects of the system and improve the quality of the product.
+* Assist new user/stakeholder/developer
+* Maintenance is easier
+
+### Document you can come across
+In this post, I will present a list of documents you can see in a project using waterfall model and their purposes. There are a few points I want to make:
+1. I don't have much experiences with other management methodologies like Agile or Scrum, so I will limit it to waterfall model.
+2. The documents below are frequently used at Japanese companies (where document management is crucial), so your experience could be different.
+3. Different companies have different document management system/style, for example customer may require screen design at requirements phase, or several documents can be merged together.
+For the sake of completeness, I will also include business related document, even though developer will rarely see them.
+Here is the list
+
+|Phase|Document| |
+|:----|:----|:----|
+|Business|現状業務の業務フロー (AsIs)|Current business flow (AsIs)|
+| |システム化後の業務フロー (ToBe)|Business flow after systemization (ToBe)|
+| |システム化範囲を定義|Systematization scope definition|
+| |業務機能一覧|List of business functions|
+| |システム化機能概要|Overview of systemization functions|
+| |システム化業務一覧|List of systemization business|
+| |システム化業務説明|Systematization business explanation|
+| |問題点、課題、ニーズなど一覧|List of problems, issues, needs, etc.|
+| |要求一覧|Request list|
+| |業務機能構成表|Business function composition table|
+| |ビジネスプロセス関連図|Business process related diagram|
+| |外部システム関連図|External system related diagram|
+| |業務処理定義書|Business process definition|
+| |業務フロー定義書|Business flow definition document|
+|Requirements Definition|要件定義書|Requirements definition document|
+| |機能一覧|List of Functions|
+| |機能定義書|Function definition document|
+| |画面遷移図|Screen transition diagram|
+| |画面一覧|Screen list|
+| |画面イメージと項目説明|Screen image and item description|
+| |画面アクション明細|Screen action details|
+| |帳票一覧|Form list|
+| |帳票イメージと項目説明|Form image and item description|
+| |バッチ処理一覧|Batch processing list|
+| |バッチ機能概要|Batch function overview|
+| |バッチジョブフロー|Batch job flow|
+| |外部インタフェース一覧|List of external interfaces|
+| |外部インタフェース項目定義|External interface item definition|
+| |外部インタフェース処理説明|External interface processing explanation|
+| |データモデル定義書|Data model definition document|
+| |データレイアウト概要|Data layout overview|
+| |非機能要件の定義|Definition of non-functional requirements|
+|Basic Design|基本設計書|Basic design document|
+| |システム構成図|System Configuration|
+| |ハードウェア構成図|Hardware configuration diagram|
+| |ソフトウェア構成図|Software configuration diagram|
+| |ネットワーク構成図|Network configuration diagram|
+| |設計書記述様式|Design document description style|
+| |画面設計書|Screen design document|
+| |画面レイアウト項目定義|Screen layout item definition|
+| |帳票設計書|Form design document|
+| |帳票レイアウト項目定義|Form layout item definition|
+| |帳票編集定義|Form edit definition|
+| |オンライン処理設計書|Online processing design document|
+| |バッチ処理フロー|Batch processing flow|
+| |ジョブネット図|Job net diagram|
+| |ジョブ設計書|Job design document|
+| |外部IF設計書|External interface design document|
+| |メッセージ設計書|Message design document|
+| |エンティティ一覧|List of entities|
+| |エンティティ定義書|Entity definition|
+| |ＣＲＵＤ図|CRUD diagram|
+| |データ項目定義書|Data item definition|
+| |テーブル一覧|Table list|
+| |テーブル設計書|Table design document|
+| |テーブル定義書|Table definition|
+| |テーブル関連図（ER図）|Table relationship diagram (ER diagram)|
+| |テーブル定義|table definition|
+| |ドメイン一覧／定義|Domain list / definition|
+| |コード一覧／定義|Code list / definition|
+| |共通処理関数設計|Common processing function design|
+|Detail design|詳細設計書|Detailed design document|
+| |画面イベント定義|Screen event definition|
+| |画面処理詳細定義|Detailed definition of screen processing|
+| |クラス図|Class diagram|
+| |シーケンス図|Sequence Diagram|
+| |ステータス遷移図|State transition diagram|
+| |DB更新項目定義|DB update item definition|
+| |バッチ処理設計書|Batch processing design document|
+|Test|単体テスト仕様書兼成績書|Unit test specifications and transcripts|
+| |結合テスト仕様書兼成績書|Integration test specifications and transcripts|
+| |システムテスト仕様書兼成績書|System test specifications and report|
+| |運用テスト仕様書兼成績書|Operation test specifications and report|
+
+
+References:
+
+[IPA - ドキュメント観点で手戻りを削減](https://www.ipa.go.jp/sec/old/users/seminar/seminar_tokyo_20170615-04.pdf)
+
+[システム開発で作成するドキュメントの体系](https://thinkit.co.jp/article/17064)
+
+[システム開発における成果物とは？要件定義をはじめとした各工程ごとの具体的例](https://www.biz.ne.jp/matome/2005051/)

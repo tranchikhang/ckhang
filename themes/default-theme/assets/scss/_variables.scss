@@ -11,9 +11,9 @@ $code-color: #bf616a;
 $sidebar-color: #444b79;
 
 // Fonts
-$serif-primary: 'Quicksand', 'Times New Roman', Times, serif;
-$serif-secondary: 'Quicksand', 'Georgia', serif;
-$sans-serif: 'Quicksand', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+$serif-primary: 'NotoSansJP', 'Times New Roman', Times, serif;
+$serif-secondary: 'NotoSansJP', 'Georgia', serif;
+$sans-serif: 'NotoSansJP', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
 $monospaced: Menlo, Monaco, monospace;
 
 @mixin box-sizing($type: border-box) {
