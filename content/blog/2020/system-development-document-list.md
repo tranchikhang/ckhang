@@ -1,15 +1,16 @@
 ---
 title: "What are the documents used for system development?"
 date: 2020-10-15
-summary: "If you’re about to outsourcing a project, you should consider creating a RFP"
-keywords: "Software engineering, Project management, Documentation, Japanese"
+summary: "The importance of documentation and common document you may come across"
+keywords: "Software engineering, Project management, Documentation, Japanese, Waterfall"
 draft: true
 ---
 
 ### The good old waterfall model
 If you work in software development, you have probably heard about the waterfall project management methodology (or waterfall model), even if you’ve never used it.
-Simply put, the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) is a sequential, linear process of project management that divides software development into pre-defined phases.
+in general, the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) is a sequential, linear process of project management that divides software development into pre-defined phases.
 ![waterfall.png](waterfall.png)
+Waterfall is considered a "traditional" and strict approach, proper planning is a must, and there must be a clear picture of what the final product. Everything must be carefully documented and team members will refer to the documentation throughout the process.
 
 ### The importance of documentation in system development
 In system development process, the time required to create document is not small. But good documentation can provide many benefits:
@@ -24,7 +25,7 @@ In this post, I will present a list of documents you can see in a project using 
 1. I don't have much experiences with other management methodologies like Agile or Scrum, so I will limit it to waterfall model.
 2. The documents below are frequently used at Japanese companies (where document management is crucial), so your experience could be different.
 3. Different companies have different document management system/style, for example customer may require screen design at requirements phase, or several documents can be merged together.
-For the sake of completeness, I will also include business related document, even though developer will rarely see them.
+For the sake of completeness, I will also include business related document (mostly appeared in planning phase), even though developer will rarely see them.
 Here is the list
 
 |Phase|Document| |
@@ -43,6 +44,7 @@ Here is the list
 | |外部システム関連図|External system relationship diagram|
 | |業務処理定義書|Business process definition|
 | |業務フロー定義書|Business flow definition|
+| |システム開発地図|System development map|
 |Requirements Definition|要件定義書|Requirements definition|
 | |機能一覧|List of Functions|
 | |機能定義書|Function definition|
