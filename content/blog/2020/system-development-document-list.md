@@ -30,8 +30,8 @@ Here is the list
 
 |Phase|Document| |
 |:----|:----|:----|
-|Business|現状業務の業務フロー (AsIs)|Current business flow (AsIs)|
-| |システム化後の業務フロー (ToBe)|Business flow after systemization (ToBe)|
+|Business|現状業務の業務フロー図 (AsIs)|Current business flow diagram (AsIs)|
+| |システム化後の業務フロー図 (ToBe)|Business flow after systemization diagram(ToBe)|
 | |システム化範囲を定義|Systematization scope definition|
 | |業務機能一覧|List of business functions|
 | |システム化機能概要|Overview of systemization functions|
