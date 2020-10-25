@@ -2,6 +2,8 @@
 title: "Blog update"
 date: 2020-08-28
 summary: "Restructured with Hugo and moved to Vercel"
+keywords: "Hugo, Vercel"
+tags: ["Hugo", "Vercel"]
 draft: true
 ---
 

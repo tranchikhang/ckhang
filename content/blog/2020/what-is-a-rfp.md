@@ -2,7 +2,8 @@
 title: "What is a Request for Proposal (RFP) in Software development?"
 date: 2020-10-11
 summary: "If you’re about to outsourcing a project, you should consider creating a RFP"
-keywords: "RFP, Software engineering, Project management"
+keywords: "RFP, Software engineering, Project management, Documentation"
+tags: ["RFP", "Software engineering", "Project management", "Documentation"]
 draft: true
 ---
 

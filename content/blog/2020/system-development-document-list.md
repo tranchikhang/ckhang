@@ -2,13 +2,14 @@
 title: "What are the documents used for system development?"
 date: 2020-10-15
 summary: "The importance of documentation and common document you may come across"
-keywords: "Software engineering, Project management, Documentation, Japanese, Waterfall"
+keywords: "Software engineering, Project management, Documentation, Japanese, Waterfall, IPA"
+tags: ["Software engineering", "Project management", "Documentation", "Japanese", "Waterfall", "IPA"]
 draft: true
 ---
 
 ### The good old waterfall model
 If you work in software development, you have probably heard about the waterfall project management methodology (or waterfall model), even if you’ve never used it.
-in general, the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) is a sequential, linear process of project management that divides software development into pre-defined phases.
+In general, the [waterfall model](https://en.wikipedia.org/wiki/Waterfall_model) is a sequential, linear process of project management that divides software development into pre-defined phases.
 ![waterfall.png](waterfall.png)
 Waterfall is considered a "traditional" and strict approach, proper planning is a must, and there must be a clear picture of what the final product. Everything must be carefully documented and team members will refer to the documentation throughout the process.
 
@@ -20,12 +21,13 @@ In system development process, the time required to create document is not small
 * Assist new user/stakeholder/developer
 * Maintenance is easier
 
-### Document you can come across
+### Documents in Software development
 In this post, I will present a list of documents you can see in a project using waterfall model and their purposes. There are a few points I want to make:
-1. I don't have much experiences with other management methodologies like Agile or Scrum, so I will limit it to waterfall model.
+1. I don't have much experience with other management methodologies like Agile or Scrum, so I will limit it to waterfall model.
 2. The documents below are frequently used at Japanese companies (where document management is crucial), so your experience could be different.
-3. Different companies have different document management system/style, for example customer may require screen design at requirements phase, or several documents can be merged together.
-For the sake of completeness, I will also include business related document (mostly appeared in planning phase), even though developer will rarely see them.
+3. Different companies have different document management systems/styles, for example, customer may require screen design at requirements phase, or several documents can be merged together.
+For the sake of completeness, I will also include business related document (mostly appeared in the planning phase), even though developer will rarely see them.
+
 Here is the list
 
 |Phase|Document| |

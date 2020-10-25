@@ -2,7 +2,8 @@
 title: "Trying out MithrilJS"
 date: 2020-07-24
 summary: "First day into Mithril"
-keywords: "Mithril, MithrilJS, Front-end, Frontend, Framework, JavaScript, HTML, CSS, JSX"
+keywords: "MithrilJS, Frontend, Framework, JavaScript, HTML, CSS, JSX"
+tags: ["MithrilJS", "Frontend", "Framework", "JavaScript", "HTML", "CSS", "JSX"]
 draft: true
 ---
 
