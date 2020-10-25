@@ -3,7 +3,7 @@ title: "A great Japanese ebook about System design"
 date: 2020-07-05
 summary: "A great IT book by IPA"
 keywords: "System Design, Japanese, IPA, System Restructuring"
-tags: ["System Design", "Japanese", "IPA", "System Restructuring"]
+tags: [System Design, Japanese, IPA, System Restructuring]
 draft: true
 ---
 

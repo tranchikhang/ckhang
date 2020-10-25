@@ -3,7 +3,7 @@ title: "Simple Reddit client using Angular"
 date: 2020-01-13
 summary: "Create a simple Angular application fetching data from Reddit"
 keywords: "Angular, TypeScript, Frontend, Framework, JavaScript, HTML, CSS"
-tags: ["Angular", "TypeScript", "Frontend", "Framework", "JavaScript", "HTML", "CSS"]
+tags: [Angular, TypeScript, Frontend, Framework, JavaScript, HTML, CSS]
 draft: true
 ---
 

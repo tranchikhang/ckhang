@@ -3,7 +3,7 @@ title: "Named parameters binding with pyodbc"
 date: 2019-11-17
 summary: "Binding parameter in pyodb with named placeholder without worrying about order"
 keywords: "Python, pyodbc, Database"
-tags: [Python", "pyodbc", "Database"]
+tags: [Python, pyodbc, Database]
 draft: true
 ---
 

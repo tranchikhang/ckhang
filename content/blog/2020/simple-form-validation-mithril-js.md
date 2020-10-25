@@ -3,7 +3,7 @@ title: "Simple Form Validation in Mithril Js"
 date: 2020-08-08
 summary: "How to validate form input in MithrilJS"
 keywords: "MithrilJS, Frontend, Framework, JavaScript, HTML, CSS, JSX"
-tags: ["MithrilJS", "Frontend", "Framework", "JavaScript", "HTML", "CSS", "JSX"]
+tags: [MithrilJS, Frontend, Framework, JavaScript, HTML, CSS, JSX]
 draft: true
 ---
 Last time, I covered the basics of Mithril by creating a simple login page. In this post I will continue with form validation in a simple way.

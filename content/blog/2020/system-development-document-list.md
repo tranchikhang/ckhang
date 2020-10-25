@@ -3,7 +3,7 @@ title: "What are the documents used for system development?"
 date: 2020-10-15
 summary: "The importance of documentation and common document you may come across"
 keywords: "Software engineering, Project management, Documentation, Japanese, Waterfall, IPA"
-tags: ["Software engineering", "Project management", "Documentation", "Japanese", "Waterfall", "IPA"]
+tags: [Software engineering, Project management, Documentation, Japanese, Waterfall, IPA]
 draft: true
 ---
 
