@@ -26,6 +26,8 @@ In this post, I will present a list of documents you can see in a project using 
 1. I don't have much experience with other management methodologies like Agile or Scrum, so I will limit it to waterfall model.
 2. The documents below are frequently used at Japanese companies (where document management is crucial), so your experience could be different.
 3. Different companies have different document management systems/styles, for example, customer may require screen design at requirements phase, or several documents can be merged together.
+4. The English names are roughly translated, for example, 業務 does not mean "business" only, but "business operation", "business affairs" in general.
+
 For the sake of completeness, I will also include business related document (mostly appeared in the planning phase), even though developer will rarely see them.
 
 Here is the list
@@ -33,19 +35,14 @@ Here is the list
 |Phase|Document| |
 |:----|:----|:----|
 |Business|現状業務の業務フロー図 (AsIs)|Current business flow diagram (AsIs)|
-| |システム化後の業務フロー図 (ToBe)|Business flow after systemization diagram(ToBe)|
-| |システム化範囲を定義|Systematization scope definition|
+| |システム化後の業務フロー図 (ToBe)|Business flow after systemization diagram (ToBe)|
 | |業務機能一覧|List of business functions|
-| |システム化機能概要|Overview of systemization functions|
 | |システム化業務一覧|List of systemization business|
 | |システム化業務説明|Systematization business explanation|
-| |問題点、課題、ニーズなど一覧|List of problems, issues, needs, etc.|
-| |要求一覧|Request list|
-| |業務機能構成表|Business function composition table|
+| |業務機能構成表|Business function structure table|
 | |ビジネスプロセス関連図|Business process relationship diagram|
 | |外部システム関連図|External system relationship diagram|
 | |業務処理定義書|Business process definition|
-| |業務フロー定義書|Business flow definition|
 | |システム開発地図|System development map|
 |Requirements Definition|要件定義書|Requirements definition|
 | |機能一覧|List of Functions|

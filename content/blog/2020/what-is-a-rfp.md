@@ -1,17 +1,17 @@
 ---
 title: "What is a Request for Proposal (RFP) in Software development?"
 date: 2020-10-11
-summary: "If you’re about to outsourcing a project, you should consider creating a RFP"
+summary: "If you’re about to outsourcing a project, you should consider creating an RFP"
 keywords: "RFP, Software engineering, Project management, Documentation"
 tags: ["RFP", "Software engineering", "Project management", "Documentation"]
 draft: true
 ---
 
-### What is a RFP?
+### What is an RFP?
 From Wikipedia:
 > A request for proposal (RFP) is a document that solicits proposal, often made through a bidding process, by an agency or company interested in procurement of a commodity, service, or valuable asset, to potential suppliers to submit business proposals.[1] It is submitted early in the procurement cycle, either at the preliminary study, or procurement stage.
 
-RFP is one of the initial documents you create when outsourcing your project to a vendor. A good RFP can provide detailed requirements of the product or services, and helps you get highly informative bids from other vendors.
+RFP is one of the initial documents you create when outsourcing your project to a vendor. A good RFP can provide detailed requirements of the product or service, and helps you get highly informative bids from other vendors.
 
 ### Why do you need RFP?
 There are some merits:
@@ -38,7 +38,7 @@ Here is what a RPF should contain:
 * Criteria for selection
 * Proposal timeline
 
-There is no standard template for writing a RFP, you can search on the internet for some samples.
+There is no standard template for writing an RFP, you can search on the internet for some samples.
 
 ### Final thoughts
 Software development RFP is difficult to make and could be time-consuming. But if you want to build your system with an external company, you should create one.
