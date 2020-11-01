@@ -1,7 +1,7 @@
 ---
 title: "Requirement analysis - 要望 (demand) vs 要求 (request) vs 要件 (requirement)"
 date: 2020-10-29
-summary: "If you’re about to outsourcing a project, you should consider creating an RFP"
+summary: ""
 keywords: "Software engineering, Project management, Documentation, Requirement analysis"
 tags: [Software engineering, Project management, Documentation, Requirement analysis]
 draft: true
