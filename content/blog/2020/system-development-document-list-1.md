@@ -57,13 +57,14 @@ References:
 [【業務可視化関連帳票】業務一覧表とは](https://kashika.biz/analysis-4/)
 
 [IPA - 第1章 システム化業務一覧](https://www.ipa.go.jp/files/000004425.pdf)
+
 [IPA - 第２部合意形成に使う主な図表の解説](https://www.ipa.go.jp/files/000004511.pdf)
+
+[IPA- ユーザのための要件定義ガイド ～要求を明確にするための勘どころ～](https://www.ipa.go.jp/sec/publish/tn16-008.html)
 
 [第2回　［システム振舞い編］一覧表に一工夫入れることで漏れや重複をなくす](https://xtech.nikkei.com/it/article/COLUMN/20080611/307596/)
 
 [第4回　［システム振舞い編］発注者が理解しやすいシナリオの記述方法](https://xtech.nikkei.com/it/article/COLUMN/20080707/310297/)
-
-[ユーザのための要件定義ガイド ～要求を明確にするための勘どころ～](https://www.ipa.go.jp/sec/publish/tn16-008.html)
 
 [「システム開発地図」の使い方と作り方 第3回](https://www.itmedia.co.jp/enterprise/articles/1611/22/news156.html)
 
