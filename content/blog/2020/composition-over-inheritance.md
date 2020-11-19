@@ -234,80 +234,154 @@ Now take a look again at the game, you have:
 * BattleMage = attack + heal
 * Paladin = attack + block + heal
 
-**Attempt #1:**
-
-We will try to apply composition using Interface. From the information above, we can define a `Role` interface:
+We will try to apply composition design using Interface, convert the above actions into component then "inject" them into our classes.
+First we define a `Role` interface:
 ```PHP
 <?php
 interface Role {
-    public function canHeal();
-    public function canBlock();
+    public function attack();
+    public function block();
+    public function heal();
 }
 ````
 
-then we define all roles:
+Then we define all roles:
 
 ```PHP
 <?php
-class PhysicalAttacker implements Role {
-    public function canHeal() {
-        return false;
-    }
-
-    public function canBlock() {
-        return true;
-    }
+interface IPhysicalAttacker {
+    public function attack();
 }
 
-class MagicUser implements Role {
-    public function canHeal() {
-        return true;
-    }
-
-    public function canBlock() {
-        return false;
-    }
-}
-
-class Paladin implements Role {
-    public function canHeal() {
-        return true;
-    }
-
-    public function canBlock() {
-        return true;
-    }
-}
-````
-
-The BaseClass now will implement all the action: `attack`, `block`, `heal`.
-
-```PHP
-<?php
-class BaseClass
-{
-    private $role;
-    private $attack;
-
-    public function __construct(string $attack, Role $role) {
-        $this->attack = $attack;
-        $this->role = $role;
-    }
-
+class PhysicalAttacker implements IPhysicalAttacker {
     public function attack() {
-        echo $this->attack . "\n";
+        echo "Melee attack\n";
     }
+}
 
+interface IDefender {
+    public function block();
+}
+
+class Defender implements IDefender {
     public function block() {
-        if ($this->role->canBlock()) {
-            echo "Block\n";
-        }
+        echo "Block\n";
+    }
+}
+
+interface IMagicAttacker {
+    public function attack();
+}
+
+class MagicAttacker implements IMagicAttacker {
+    public function attack() {
+        echo "Magic attack\n";
+    }
+}
+
+interface IHealer {
+    public function heal();
+}
+
+class Healer implements IHealer {
+    public function heal() {
+        echo "Heal\n";
+    }
+}
+````
+
+Then the class:
+
+```PHP
+<?php
+class Warrior
+{
+    private $attackRole;
+    private $defendRole;
+
+    public function __construct() {
+        $this->attackRole = new PhysicalAttacker();
+        $this->defendRole = new Defender();
     }
 
-    public function heal() {
-        if ($this->role->canHeal()) {
-            echo "Heal\n";
-        }
+    public function attack()
+    {
+        $this->attackRole->attack();
+    }
+
+    public function block()
+    {
+        $this->defendRole->block();
+    }
+}
+
+class Wizard
+{
+    private $attackRole;
+    private $healRole;
+
+    public function __construct() {
+        $this->attackRole = new MagicAttacker();
+        $this->healRole = new Healer();
+    }
+
+    public function attack()
+    {
+        $this->attackRole->attack();
+    }
+
+    public function heal()
+    {
+        $this->healRole->heal();
+    }
+}
+
+class BattleMage
+{
+    private $attackRole;
+    private $healRole;
+
+    public function __construct() {
+        $this->attackRole = new PhysicalAttacker();
+        $this->healRole = new Healer();
+    }
+
+    public function attack()
+    {
+        $this->attackRole->attack();
+    }
+
+    public function heal()
+    {
+        $this->healRole->heal();
+    }
+}
+
+class Paladin
+{
+    private $attackRole;
+    private $defendRole;
+    private $healRole;
+
+    public function __construct() {
+        $this->attackRole = new PhysicalAttacker();
+        $this->defendRole = new Defender();
+        $this->healRole = new Healer();
+    }
+
+    public function attack()
+    {
+        $this->attackRole->attack();
+    }
+
+    public function block()
+    {
+        $this->defendRole->block();
+    }
+
+    public function heal()
+    {
+        $this->healRole->heal();
     }
 }
 ```
@@ -315,22 +389,22 @@ Let's test it:
 ```PHP
 <?php
 echo "\nWarrior\n";
-$warrior = new BaseClass("Melee attack", new PhysicalAttacker());
+$warrior = new Warrior();
 $warrior->attack();
 $warrior->block();
 
 echo "\nWizard\n";
-$wizard = new BaseClass("Magic attack", new MagicUser());
+$wizard = new Wizard();
 $wizard->attack();
 $wizard->heal();
 
 echo "\nBattle Mage\n";
-$battleMage = new BaseClass("Melee attack", new MagicUser());
+$battleMage = new BattleMage();
 $battleMage->attack();
 $battleMage->heal();
 
 echo "\nPaladin\n";
-$paladin = new BaseClass("Melee attack", new Paladin());
+$paladin = new Paladin();
 $paladin->attack();
 $paladin->block();
 $paladin->heal();
@@ -355,13 +429,21 @@ Block
 Heal
 ```
 
-That's less code duplication now. The code is flexible enough in case you want to add some new classes with new actions (a necromancer who can `summon` but cannot heal`heal`, an assassin who can `hide` but cannot `block`). And in case you want to modify the behavior of those actions, you just need to update one function in `BaseClass`.
+That's less code duplication now.
 
-But there are still problems:
-1. `attack` is still duplicated, we need to separate it into a different place.
-2. Wizard still be able to call `block`, and Warrior still be able to call `heal` (even tho they won't do anything).
-3. All roles have to implement all function of `Role` interface
+The code is flexible enough in case you want to add some new classes with new actions (a necromancer who can `summon` but cannot heal`heal`, an assassin who can `evade` but cannot `block`). And in case you want to modify the behavior of those actions, you just need to update one function in the corresponding role.
 
 (To be continue)
 
+
+References:
+
 [Game Programming Patterns - Decoupling Patterns - Component](https://gameprogrammingpatterns.com/component.html)
+
+[Unity - Managing different weapons in scripting](https://answers.unity.com/questions/513863/managing-different-weapons-in-scripting.html)
+
+[Unity - Component-based weapon system](https://forum.unity.com/threads/component-based-weapon-system.204999/)
+
+[Composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance)
+
+[Strategy Pattern - Composition over Inheritance](https://onewheelstudio.com/blog/2020/8/16/strategy-pattern-composition-over-inheritance)
