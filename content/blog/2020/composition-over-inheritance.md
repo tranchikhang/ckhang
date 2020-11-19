@@ -7,7 +7,7 @@ tags: [Object-oriented programming, Composition, PHP, Inheritance]
 ---
 
 ### Object-oriented programming - polymorphism
-"Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts. It allows developer to perform a single action in different ways (explained in programming way: allow the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations).
+"Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts. allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
 
 The purpose of polymorphism is to enforce simplicity, making codes easy to extend and thus easily maintaining applications.
 
@@ -16,25 +16,40 @@ You can achieve polymorphism using inheritance or composition
 * Inheritance occurs when a child class inherits from a parent class, and the child acquires all behaviors from the parent.
 * [Composition is a way to combine objects or data types into more complex ones](https://en.wikipedia.org/wiki/Object_composition), rather than inheriting from a base or parent class.
 
-### The differences between Inheritance and Composition
-The main difference between inheritance and composition is in the relationship between objects...
+### Why composition over inheritance?
+The main difference between inheritance and composition is in the relationship between objects:
 
-* Inheritance is an "is-a" relationship, used to design a class on what it is
-* Composition is a "has-a" relationship, used to design a class on what it does
+* Inheritance is an "is-a" relationship, used to design a class on **what it is**
+* Composition is a "has-a" relationship, used to design a class on **what it does**
 
-... and their effect:
+And their effects:
 
 * Classes and objects created through inheritance are **tightly** coupled, changing the parent (or superclass) in an inheritance relationship can cause unwanted side effects on the subclass.
 * Classes and objects created through composition are **loosely** coupled, which means you can easily change the component parts, brings more flexibility for the program.
 
-### An example using inheritance
-\* In this article, I will use PHP because it's my go-to language.
+The primary intention of composition is to make the design more flexible. Your component can be easily added into object without repercussion. Composition also allows you to design your class where components can be replaced/modified if needed.
 
-\* Composition over inheritance is a principle, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP), object merging (JS), strategy pattern etc to achieve composition design.
+More importantly, if we compare between composition and inheritance in a larger context, it would be between OOP and component oriented design. Both of them are not mutually exclusive concepts, so the most of the principles of the former still hold if you take the latter approach.
+
+For example, if your super class and subclass share the exact same implementation, then you should use inheritance in the super class to provide the implementation. If there are many classes that have a behavior which is shared between different hierarchies, then you should consider using interface and implement composition design.
+
+### How to implement component oriented design?
+
+Composition over inheritance is a principle, **not a design pattern**, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP), object merging (JS) etc to achieve composition design.
+
+### Drawbacks
+
+A common drawback of composition is that method provided by component may have to be re-implemented, even if they only [delegate](https://en.wikipedia.org/wiki/Delegation_(object-oriented_programming)) or [forward](https://en.wikipedia.org/wiki/Forwarding_(object-oriented_programming)) to another function.
+
+Inheritance, on the other hand, does not require re-implementation of method, only when the subclass has a different behavior comparing to super class (override).
+
+### An example using inheritance
 
 **Scenario:** you are making a game. An action RPG game (think Diablo, Grim Dawn).
 
 At the beginning of the game, user can choose a class. This is the first version of the game, you only have 2 classes: Warrior and Wizard.
+
+So we have the basic implementation like this:
 ```PHP
 <?php
 abstract class BaseClass
@@ -64,13 +79,12 @@ $warrior->attack();
 $wizard = new Wizard();
 $wizard->attack();
 ```
-
 Result:
 ```cmd
 Melee attack
 Magic attack
 ```
-First you have `BaseClass`, which is an abstract class. Then Warrior and Wizard inherit BaseClass, and implement different action in `attack`. This looks sensible and follows a textbook intro to OOP.
+First you have `BaseClass`, which is an abstract class. Then Warrior and Wizard inherit BaseClass, and implement different actions in `attack`. This looks sensible and follows a textbook intro to OOP.
 
 OK, you want to update your game (new DLC!). The Warrior now can block (but cannot heal) and the Wizard can heal (but cannot block).
 
@@ -83,7 +97,6 @@ abstract class BaseClass
     abstract public function heal() ;
 }
 ```
-
 **Problem #1:** you have to implement all there function *attack*, *block* and *heal* in subclasses.
 
 **First attempt:** remove abstract class
@@ -142,13 +155,13 @@ Heal
 
 That's great, but...
 
-**Problem #2:** your Wizard now can `block` (or Warrior can `heal`) but won't do anything. The reason is we haven't implemented it, but even if we do, it would be incorrect, cause only Warrior can block and only Wizard can heal.
+**(Small) Problem #2:** your Wizard now can call `block` (or Warrior can call `heal`) but won't do anything.
 ```PHP
 <?php
 $warrior->heal();
 $wizard->block()
 ```
-We won't deal with this right now, I will go over all the problems with inheritance, then try to fix them with composition.
+This is not a big deal, since inside subclass, we can implement some logic to throw an exception when the above cases happen, but it's not really an optimal solution.
 
 Now you have a new DLC, a new class called BattleMage is added, they can `attack` like Warrior, they can also `heal` like Wizard.
 
@@ -214,7 +227,7 @@ Heal
 
 Your code does run, but more code duplication...
 
-### Fixing the problem with composition
+### Fixing the problem
 Now take a look again at the game, you have:
 * Warrior = attack + block
 * Wizard = attack + heal
@@ -350,3 +363,5 @@ But there are still problems:
 3. All roles have to implement all function of `Role` interface
 
 (To be continue)
+
+[Game Programming Patterns - Decoupling Patterns - Component](https://gameprogrammingpatterns.com/component.html)
