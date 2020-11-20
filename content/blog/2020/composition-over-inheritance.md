@@ -7,11 +7,11 @@ tags: [Object-oriented programming, Composition, PHP, Inheritance]
 ---
 
 ### Object-oriented programming - polymorphism
-"Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts. allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
+"Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts, allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
 
 The purpose of polymorphism is to enforce simplicity, making codes easy to extend and thus easily maintaining applications.
 
-You can achieve polymorphism using inheritance or composition
+You can achieve polymorphism using inheritance or composition:
 
 * Inheritance occurs when a child class inherits from a parent class, and the child acquires all behaviors from the parent.
 * [Composition is a way to combine objects or data types into more complex ones](https://en.wikipedia.org/wiki/Object_composition), rather than inheriting from a base or parent class.
@@ -86,7 +86,7 @@ Magic attack
 ```
 First you have `BaseClass`, which is an abstract class. Then Warrior and Wizard inherit BaseClass, and implement different actions in `attack`. This looks sensible and follows a textbook intro to OOP.
 
-OK, you want to update your game (new DLC!). The Warrior now can block (but cannot heal) and the Wizard can heal (but cannot block).
+After a few months, you want to update your game (new DLC!). The Warrior now can block (but cannot heal) and the Wizard can heal (but cannot block).
 
 ```PHP
 <?php
@@ -155,13 +155,15 @@ Heal
 
 That's great, but...
 
-**(Small) Problem #2:** your Wizard now can call `block` (or Warrior can call `heal`) but won't do anything.
+**Problem #2:** your Wizard now can call `block`, and Warrior can call `heal`, but nothing will happen.
 ```PHP
 <?php
 $warrior->heal();
 $wizard->block()
 ```
-This is not a big deal, since inside subclass, we can implement some logic to throw an exception when the above cases happen, but it's not really an optimal solution.
+We can implement some logic to throw an exception when the above cases happen, even though it's not really an optimal solution.
+
+This is the first sign indicating for composition, where your subclass only needs some/part of the behavior exposed by super class.
 
 Now you have a new DLC, a new class called BattleMage is added, they can `attack` like Warrior, they can also `heal` like Wizard.
 
@@ -433,7 +435,51 @@ That's less code duplication now.
 
 The code is flexible enough in case you want to add some new classes with new actions (a necromancer who can `summon` but cannot heal`heal`, an assassin who can `evade` but cannot `block`). And in case you want to modify the behavior of those actions, you just need to update one function in the corresponding role.
 
-(To be continue)
+You can even change the behavior at runtime:
+
+```PHP
+<?php
+class BattleMage
+{
+    private $attackRole;
+    private $healRole;
+
+    public function __construct() {
+        $this->attackRole = new PhysicalAttacker();
+        $this->healRole = new Healer();
+    }
+
+    public function setAttackType($attackType) {
+        $this->attackRole = $attackType;
+    }
+
+    public function attack()
+    {
+        $this->attackRole->attack();
+    }
+
+    public function heal()
+    {
+        $this->healRole->heal();
+    }
+}
+
+$battleMage = new BattleMage();
+$battleMage->attack();
+$battleMage->heal();
+$battleMage->setAttackType(new MagicAttacker());
+$battleMage->attack();
+```
+Result:
+```cmd
+Melee attack
+Heal
+Magic attack
+```
+
+### Conclusion
+
+Composition over inheritance does not mean that you should always use composition over inheritance. Both of them have pros and cons, depend on how you want your system to work, what makes sense architecturally, and how easy it will be for maintain and testing.
 
 
 References:
