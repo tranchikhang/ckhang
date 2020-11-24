@@ -6,6 +6,7 @@ keywords: "Object-oriented programming, Composition, PHP, Inheritance"
 tags: [Object-oriented programming, Composition, PHP, Inheritance]
 ---
 
+\* In this post, I won't go over the basic concept of Object-oriented programming (OOP), assuming that you already have the basic understanding of OOP.
 ### Object-oriented programming - polymorphism
 "Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts, allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
 
@@ -25,17 +26,17 @@ The main difference between inheritance and composition is in the relationship b
 And their effects:
 
 * Classes and objects created through inheritance are **tightly** coupled, changing the parent (or superclass) in an inheritance relationship can cause unwanted side effects on the subclass.
-* Classes and objects created through composition are **loosely** coupled, which means you can easily change the component parts, brings more flexibility for the program.
+* Classes and objects created through composition are **loosely** coupled, which means you can easily change the component parts, bringing more flexibility for the program.
 
 The primary intention of composition is to make the design more flexible. Your component can be easily added into object without repercussion. Composition also allows you to design your class where components can be replaced/modified if needed.
 
-More importantly, if we compare between composition and inheritance in a larger context, it would be between OOP and component oriented design. Both of them are not mutually exclusive concepts, so the most of the principles of the former still hold if you take the latter approach.
+If we compare between composition and inheritance in a larger context, it would be between OOP and component oriented design. Both of them are **not mutually exclusive concepts**, so the most of the principles of the former still hold if you take the latter approach.
 
-For example, if your super class and subclass share the exact same implementation, then you should use inheritance in the super class to provide the implementation. If there are many classes that have a behavior which is shared between different hierarchies, then you should consider using interface and implement composition design.
+For example, if your super class and subclass share the exact same implementation, then you should use inheritance to provide the implementation. If there are many classes that have a behavior which is shared between different hierarchies, then you should consider using interface and implement composition design.
 
 ### How to implement component oriented design?
 
-Composition over inheritance is a principle, **not a design pattern**, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP), object merging (JS) etc to achieve composition design.
+Composition over inheritance is a principle, **not a design pattern**, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP etc), object merging (JS) etc to achieve composition design.
 
 ### Drawbacks
 
@@ -493,3 +494,7 @@ References:
 [Composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance)
 
 [Strategy Pattern - Composition over Inheritance](https://onewheelstudio.com/blog/2020/8/16/strategy-pattern-composition-over-inheritance)
+
+[How object-oriented are videogames?](https://gamedev.stackexchange.com/questions/14158/how-object-oriented-are-videogames)
+
+[Should I still prefer composition over inheritance if the child classes need BOTH the parent interface AND its class properties?](https://softwareengineering.stackexchange.com/questions/372498/should-i-still-prefer-composition-over-inheritance-if-the-child-classes-need-bot)
