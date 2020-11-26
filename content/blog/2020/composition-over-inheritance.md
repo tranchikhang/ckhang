@@ -36,7 +36,7 @@ For example, if your super class and subclass share the exact same implementatio
 
 ### How to implement component oriented design?
 
-Composition over inheritance is a principle, **not a design pattern**, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP etc), object merging (JS) etc to achieve composition design.
+Composition over inheritance is a principle, **not a design pattern**, there is no "correct" way to do it because it depends on the language. You can use many techniques like Interface (C#, PHP etc), object merging (JS), design pattern (Bridge, State...) etc to achieve composition design.
 
 ### Drawbacks
 
