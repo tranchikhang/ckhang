@@ -6,7 +6,7 @@ keywords: "Object-oriented programming, Composition, PHP, Inheritance"
 tags: [Object-oriented programming, Composition, PHP, Inheritance]
 ---
 
-\* In this post, I won't go over the basic concept of Object-oriented programming (OOP), assuming that you already have the basic understanding of OOP.
+\* In this post, I won't cover the basic concept of Object-oriented programming (OOP), assuming that you already have the basic understanding of OOP.
 ### Object-oriented programming - polymorphism
 "Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts, allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
 
@@ -46,7 +46,7 @@ Inheritance, on the other hand, does not require re-implementation of method, on
 
 ### An example using inheritance
 
-**Scenario:** you are making a game. An action RPG game (think Diablo, Grim Dawn).
+**Scenario:** you are making a game. An action RPG game (think Diablo, Grim Dawn etc).
 
 At the beginning of the game, user can choose a class. This is the first version of the game, you only have 2 classes: Warrior and Wizard.
 
@@ -436,7 +436,7 @@ That's less code duplication now.
 
 The code is flexible enough in case you want to add some new classes with new actions (a necromancer who can `summon` but cannot heal`heal`, an assassin who can `evade` but cannot `block`). And in case you want to modify the behavior of those actions, you just need to update one function in the corresponding role.
 
-You can even change the behavior at runtime:
+You can even change the behavior at runtime. For example, if your character is able to switch between two weapons (melee and magic) during battle:
 
 ```PHP
 <?php
