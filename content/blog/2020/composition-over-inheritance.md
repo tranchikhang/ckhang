@@ -7,6 +7,8 @@ tags: [Object-oriented programming, Composition, PHP, Inheritance]
 ---
 
 \* In this post, I won't cover the basic concept of Object-oriented programming (OOP), assuming that you already have the basic understanding of OOP.
+### Basic idea
+Composition over inheritance is a principle to achieve polymorphic behavior and code reuse by composing objects out of other objects rather than trying to find commonality between them and creating an inheritance hierarchies.
 ### Object-oriented programming - polymorphism
 "Polymorphism" means having many form. In OOP, polymorphism is one of the core concepts, allows developer to perform a single action in different ways. Explained in programming way: polymorphism allows the object to decide which "form" of function/method to implement or run, by defining one interface and multiple implementations.
 
